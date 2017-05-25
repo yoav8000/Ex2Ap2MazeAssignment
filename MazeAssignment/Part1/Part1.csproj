@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{959F8252-BDA9-424B-916D-D15A2C4BCE51}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SearchAlgorithmLib</RootNamespace>
-    <AssemblyName>SearchAlgorithmLib</AssemblyName>
+    <ProjectGuid>{00C99F59-D9DB-4FDA-91B5-12AAAB396F90}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Part1</RootNamespace>
+    <AssemblyName>Part1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,12 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Academy.Collections, Version=2.1.0.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Academy.Collections.2.1.0.0\lib\net45\Academy.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="Academy.Numerics, Version=2.0.550.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Academy.Numerics.2.0.550.0\lib\net45\Academy.Numerics.dll</HintPath>
-    </Reference>
     <Reference Include="MazeGeneratorLib">
       <HintPath>..\..\..\..\..\Desktop\יואב לימודים\שנה ב'\סמסטר ב'\מדמח\תכנות מתקדם 2\מטלות\מטלה 1\MazeGeneratorLib.dll</HintPath>
     </Reference>
@@ -55,24 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\MazeAdapter.cs" />
-    <Compile Include="Adapters\SolutionAdapter.cs" />
-    <Compile Include="Comperators\CostComperator.cs" />
-    <Compile Include="Factories\SearchAlgorithmFactory.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Searchable\ISearchable.cs" />
-    <Compile Include="Searchers\BfsSearcher.cs" />
-    <Compile Include="Searchers\DfsSearcher.cs" />
-    <Compile Include="Searchers\ISearcher.cs" />
-    <Compile Include="Searchers\PrioritySearcher.cs" />
-    <Compile Include="Searchers\Searcher.cs" />
-    <Compile Include="Searchers\StackBasedSearcher.cs" />
-    <Compile Include="Solution.cs" />
-    <Compile Include="State.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SearchAlgorithmLib\SearchAlgorithmLib.csproj">
+      <Project>{959f8252-bda9-424b-916d-d15a2c4bce51}</Project>
+      <Name>SearchAlgorithmLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
