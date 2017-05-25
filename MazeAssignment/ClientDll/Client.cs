@@ -7,12 +7,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheClient
+namespace ClientDll
 {
-    /// <summary>
-    /// Client class
-    /// </summary>
-    class Client
+  public class Client
     {
         /// <summary>
         /// The members
@@ -38,7 +35,7 @@ namespace TheClient
             CreateANewConnection();
             communicate = true;
             streamWriter.AutoFlush = true;
-            
+
 
         }
 
@@ -115,33 +112,36 @@ namespace TheClient
                 this.communicate = value;
             }
         }
-        public void ReadMessage()
+        public string ReadMessage()
         {
             try
             {
                 string result = StreamReader.ReadLine();
-               if (result!=null)
+                if (result != null)
                 {
-                   
-                    Console.WriteLine(result);
+
+                    //  Console.WriteLine(result);
                     string[] arr;
                     arr = result.Split(' ');
                     if (arr[0].StartsWith("Error"))
                     {
-                        Console.WriteLine("there was an error please type another command ");
+                        //  Console.WriteLine("there was an error please type another command ");
+                        return "Input Error";
                     }
-                    if (arr[0].Contains("Close"))
+                    if (arr[0].Contains("Closed"))
                     {
-                        Console.WriteLine("other player closed connection ");
+                        //  Console.WriteLine("other player closed connection ");
+                        return "The other player closed the game";
                     }
-
                 }
+                return null;
             }
 
             catch
             {
                 communicate = false;
-              
+                return "Communication with server ended";
+
             }
         }
 
@@ -151,25 +151,34 @@ namespace TheClient
         /// <summary>
         /// Writes the message.
         /// </summary>
-        public void WriteMessage()
+        public string WriteMessage(string command)
         {
 
-            Console.WriteLine("Please enter a command: ");
+            // Console.WriteLine("Please enter a command: ");
 
-            string command = Console.ReadLine();
+            //string command = Console.ReadLine();
             if (command != null && command != " ")
             {
-                Console.WriteLine($"the command is: {command} ");
+                //  Console.WriteLine($"the command is: {command} ");
                 if (!communicate)
                 {
                     CreateANewConnection();
                     communicate = true;
 
                 }
-
-                StreamWriter.WriteLine(command);
-                StreamWriter.Flush();
+                try
+                {
+                    StreamWriter.WriteLine(command);
+                    StreamWriter.Flush();
+                    return "";
+                }
+                catch
+                {
+                    communicate = false;
+                    return "Communication Error";
+                }
             }
+            return null;
         }
 
 
@@ -197,6 +206,7 @@ namespace TheClient
 
 
     }
-    
+
 }
+
 

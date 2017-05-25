@@ -1,0 +1,16 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MazeGui.View.SinglePlayerView.GameSettingsView"
+        xmlns:UserControls="clr-namespace:MazeGui.UserControls" x:Class="MazeGui.View.SinglePlayerView.GameSettingsView.SinglePlayerGamesSettingsWindow"
+        mc:Ignorable="d"
+        Title="Game Settings" Height="220" Width="300">
+    <Grid>
+
+        <UserControls:SettingsUserControl x:Name="MazeSettingsUC" HorizontalAlignment="Left" Height="100" Margin="0,35,0,0" VerticalAlignment="Top" Width="284"/>
+        <Button x:Name="OkButton" Content="OK"  HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="75" Margin="100,0,110,10" Click="OkButton_Click"/>
+
+    </Grid>
+</Window>
