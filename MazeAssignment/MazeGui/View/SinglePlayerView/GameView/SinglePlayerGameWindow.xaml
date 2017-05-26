@@ -1,0 +1,20 @@
+﻿<Window IsEnabled="{Binding VM_IsEnabled}" x:Class="MazeGui.View.SinglePlayerView.GameView.SinglePlayerGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MazeGui.View.SinglePlayerView.GameView"
+        xmlns:UserControls="clr-namespace:MazeGui.UserControls" 
+        mc:Ignorable="d"
+        Title="{Binding VM_MazeName}" Height="800" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button x:Name="RestartGameButton" Content="Restart Game" HorizontalAlignment="Left" Margin="264,49,0,0" VerticalAlignment="Top" MaxWidth="200" Click="RestartGameButton_Click"/>
+        <Button x:Name="MainMenuButton" Content="Main menu" HorizontalAlignment="Left" Margin="504,51,0,0" VerticalAlignment="Top" MaxWidth="200" Click="MainMenuButton_Click" RenderTransformOrigin="1.261,0.469"/>
+        <Button x:Name="SolveMazeButton" Content="Solve maze"  HorizontalAlignment="Left" Margin="391,49,0,0" VerticalAlignment="Top" MaxWidth="200" Click="SolveMazeButton_Click"/>
+        <Viewbox Margin="10,73,9.6,10.4">
+            <UserControls:MazeBoard x:Name="MazeBoard" Height="Auto" Width="Auto"  Maze="{Binding VM_Maze}" GoalPosition="{Binding VM_GoalPosition}" InitialPosition="{Binding VM_InitialPosition}"
+                                     Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"    PlayerPosition="{Binding VM_PlayerPosition}" Loaded="MazeBoard_Loaded" />
+        </Viewbox>
+
+    </Grid>
+</Window>

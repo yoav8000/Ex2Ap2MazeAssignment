@@ -1,0 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using MazeGui.TheViewModel.SinglePlayerVM;
+using System.ComponentModel;
+using MazeGui.Model.SinglePlayerModel;
+using MazeGui.Model.SettingsModel;
+
+namespace MazeGui.View.SinglePlayerView.GameView
+{
+    /// <summary>
+    /// Interaction logic for SinglePlayerGameWindow.xaml
+    /// </summary>
+    public partial class SinglePlayerGameWindow : Window
+    {
+        private SinglePlayerViewModel vm;
+
+        public SinglePlayerGameWindow(ISettingsModel settingModel,string mazeName)
+        {
+            this.vm = new SinglePlayerViewModel(new SinglePlayerModel(settingModel, mazeName));
+           
+            vm.ConnectionErrorOccurred += delegate (object sender, PropertyChangedEventArgs e)
+            {
+
+                if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
+                {
+
+                }
+
+            };
+            vm.StartNewGame();
+            this.DataContext = this.vm;
+            if (vm.VM_Is_Enabled)
+            {
+                InitializeComponent();
+               
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        private void MazeBoard_Loaded(object sender, RoutedEventArgs e)
+        {
+          
+            Window window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
+        }
+
+
+        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SolveMazeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RestartGameButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            string direction = "";
+            switch (e.Key)
+            {
+                case Key.Down:
+                    {
+                        direction = "Down";
+                        break;
+                    }
+                case Key.Up:
+                    {
+                        direction = "Up";
+                        break;
+                    }
+                case Key.Right:
+                    {
+                        direction = "Right";
+                        break;
+                    }
+                case Key.Left:
+                    {
+                        direction = "Left";
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            if (direction != "" && MazeBoard.PlayerPosition != MazeBoard.GoalPosition)
+            {
+                vm.MovePlayer(direction);
+            }
+        }
+    }
+}
+

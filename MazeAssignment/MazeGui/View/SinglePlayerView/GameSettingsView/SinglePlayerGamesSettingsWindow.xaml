@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:MazeGui.View.SinglePlayerView.GameSettingsView"
         xmlns:UserControls="clr-namespace:MazeGui.UserControls" x:Class="MazeGui.View.SinglePlayerView.GameSettingsView.SinglePlayerGamesSettingsWindow"
         mc:Ignorable="d"
-        Title="Game Settings" Height="220" Width="300">
+        Title="Game Settings" Height="220" Width="300" WindowStartupLocation="CenterScreen">
     <Grid>
 
-        <UserControls:SettingsUserControl x:Name="MazeSettingsUC" HorizontalAlignment="Left" Height="100" Margin="0,35,0,0" VerticalAlignment="Top" Width="284"/>
+        <UserControls:SettingsUserControl x:Name="MazeSettingsUC" HorizontalAlignment="Left" Height="100" Margin="0,29,-0.4,61.4" VerticalAlignment="Center" Width="294"/>
         <Button x:Name="OkButton" Content="OK"  HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="75" Margin="100,0,110,10" Click="OkButton_Click"/>
 
     </Grid>

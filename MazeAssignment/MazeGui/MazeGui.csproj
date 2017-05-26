@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MazeGeneratorLib">
+      <HintPath>..\..\..\..\..\Desktop\יואב לימודים\שנה ב'\סמסטר ב'\מדמח\תכנות מתקדם 2\מטלות\מטלה 1\MazeGeneratorLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MazeLib">
+      <HintPath>..\..\..\..\..\Desktop\יואב לימודים\שנה ב'\סמסטר ב'\מדמח\תכנות מתקדם 2\מטלות\מטלה 1\MazeLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,8 +61,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConnectionErrorInterface\INotifyConnectionError.cs" />
+    <Compile Include="Model\AnAbstractModelClass\AbstractModel.cs" />
+    <Compile Include="Model\SinglePlayerModel\SinglePlayerModel.cs" />
     <Compile Include="TheViewModel\GeneralVM\ViewModel.cs" />
     <Compile Include="TheViewModel\SettingsVM\SettingsViewModel.cs" />
+    <Compile Include="TheViewModel\SinglePlayerVM\SinglePlayerViewModel.cs" />
+    <Compile Include="UserControls\MazeBoard.xaml.cs">
+      <DependentUpon>MazeBoard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SettingsUserControl.xaml.cs">
       <DependentUpon>SettingsUserControl.xaml</DependentUpon>
     </Compile>
@@ -65,6 +77,9 @@
     </Compile>
     <Compile Include="View\SinglePlayerView\GameSettingsView\SinglePlayerGamesSettingsWindow.xaml.cs">
       <DependentUpon>SinglePlayerGamesSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SinglePlayerView\GameView\SinglePlayerGameWindow.xaml.cs">
+      <DependentUpon>SinglePlayerGameWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -78,6 +93,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\MazeBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SettingsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SinglePlayerView\GameSettingsView\SinglePlayerGamesSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SinglePlayerView\GameView\SinglePlayerGameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,10 +143,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\SinglePlayerModel\SinglePlayerMazeGameModel\" />
+    <ProjectReference Include="..\ClientDll\ClientDll.csproj">
+      <Project>{36ebb5ab-8848-4693-aec1-7869acd3e1bf}</Project>
+      <Name>ClientDll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SearchAlgorithmLib\SearchAlgorithmLib.csproj">
+      <Project>{959f8252-bda9-424b-916d-d15a2c4bce51}</Project>
+      <Name>SearchAlgorithmLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\the maze.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\destinationimage.PNG" />
+    <Resource Include="Resources\minionphoto.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

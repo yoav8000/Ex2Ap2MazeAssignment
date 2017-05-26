@@ -12,6 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MazeGui.View.SinglePlayerView.GameView;
+using MazeGui.TheViewModel.SinglePlayerVM;
+using MazeGui.Model.SinglePlayerModel;
 
 namespace MazeGui.View.SinglePlayerView.GameSettingsView
 {
@@ -38,7 +41,19 @@ namespace MazeGui.View.SinglePlayerView.GameSettingsView
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            string mazeName = MazeSettingsUC.txtMazeName.Text;
+            this.Hide();
+            SinglePlayerGameWindow game = new SinglePlayerGameWindow(settingsModel,mazeName);
+            try
+            {
+                game.ShowDialog();
+                this.Close();
+            }
+            catch
+            {
 
+            }
+           
         }
     }
 }

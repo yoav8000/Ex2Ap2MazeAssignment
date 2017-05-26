@@ -37,9 +37,9 @@ namespace MazeGui
 
         private void SinglePlayerButton_Click(object sender, RoutedEventArgs e)
         {
+                this.Hide();
                 ISettingsModel settingsModel = new SettingsModel();
                 SinglePlayerGamesSettingsWindow theSettingsModelWindow = new SinglePlayerGamesSettingsWindow(settingsModel);
-                this.Hide();
                 theSettingsModelWindow.ShowDialog();
             
         }

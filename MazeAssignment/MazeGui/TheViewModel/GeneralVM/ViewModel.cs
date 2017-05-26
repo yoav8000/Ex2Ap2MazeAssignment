@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace MazeGui.ViewModel.GeneralVM
 {
-    public abstract class ViewModel : INotifyConnectionError
+    public abstract class ViewModel : INotifyConnectionError , INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

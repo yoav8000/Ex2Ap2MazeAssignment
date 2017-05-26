@@ -28,15 +28,16 @@ namespace ClientDll
         /// </summary>
         /// <param name="ep">The ep.</param>
         /// <param name="portNumber">The port number.</param>
-        public Client(IPEndPoint ep, int portNumber)
+        public Client(string ip, int portNumber)
         {
-            this.ep = ep;
+            this.ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), portNumber);
             this.portNumber = portNumber;
-            CreateANewConnection();
-            communicate = true;
-            streamWriter.AutoFlush = true;
-
-
+            string result = CreateANewConnection();
+            if (!result.Contains("Connection Error"))
+            {
+                communicate = true;
+                streamWriter.AutoFlush = true;
+            }
         }
 
 
@@ -133,6 +134,7 @@ namespace ClientDll
                         //  Console.WriteLine("other player closed connection ");
                         return "The other player closed the game";
                     }
+                    return result;
                 }
                 return null;
             }
@@ -193,15 +195,25 @@ namespace ClientDll
         /// <summary>
         /// Creates a new connection.
         /// </summary>
-        public void CreateANewConnection()
+        public string CreateANewConnection()
         {
             TheClient = new TcpClient();
-            TheClient.Connect(this.ep);//connect to the server
-            this.stream = TheClient.GetStream();
-            StreamReader = new StreamReader(TheClient.GetStream());
-            StreamWriter = new StreamWriter(TheClient.GetStream());
-            Console.WriteLine("you are connected ");
-            communicate = true;
+            try
+            {
+
+
+                TheClient.Connect(this.ep);//connect to the server
+                this.stream = TheClient.GetStream();
+                StreamReader = new StreamReader(TheClient.GetStream());
+                StreamWriter = new StreamWriter(TheClient.GetStream());
+                Console.WriteLine("you are connected ");
+                communicate = true;
+                return "";
+            }
+            catch
+            {
+                return "Connection Error";
+            }
         }
 
 
