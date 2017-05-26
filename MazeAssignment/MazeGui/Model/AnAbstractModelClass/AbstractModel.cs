@@ -27,7 +27,6 @@ namespace MazeGui.Model.AnAbstractModelClass
         private Position playerPosition;
         private string connectionError;
         private bool isEnabled;
-        private Position otherPlayerPosition;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -179,19 +178,7 @@ namespace MazeGui.Model.AnAbstractModelClass
             }
         }
 
-        public Position OtherPlayerPosition
-        {
-            get
-            {
-                return otherPlayerPosition;
-            }
-
-            set
-            {
-                otherPlayerPosition = value;
-                NotifyPropertyChanged("OtherPlayerPosition");
-            }
-        }
+       
 
         public Client MyClient
         {

@@ -11,7 +11,7 @@
 
             <Image Height="100" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Source="Resources\the maze.jpg"/>
             <Button x:Name="singlePlayerButton" Content="Single Player" HorizontalAlignment="Center" Height ="30" VerticalAlignment="Center" MinWidth="80" Click="SinglePlayerButton_Click"/>
-            <Button x:Name="multiPlayerButton" Content="Multi Player" HorizontalAlignment="Center" Height ="30" VerticalAlignment="Center" MinWidth="80" Margin="10" Click="multiPlayerButton_Click"/>
+            <Button x:Name="multiPlayerButton" Content="Multi Player" HorizontalAlignment="Center" Height ="30" VerticalAlignment="Center" MinWidth="80" Margin="10" Click="MultiPlayerButton_Click"/>
             <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Center" Height ="30" VerticalAlignment="Center" MinWidth="80" Click="SettingsButton_Click" />
 
 

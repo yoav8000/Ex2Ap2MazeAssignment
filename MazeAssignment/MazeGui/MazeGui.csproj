@@ -40,6 +40,9 @@
     <Reference Include="MazeLib">
       <HintPath>..\..\..\..\..\Desktop\יואב לימודים\שנה ב'\סמסטר ב'\מדמח\תכנות מתקדם 2\מטלות\מטלה 1\MazeLib.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -62,8 +65,10 @@
     </ApplicationDefinition>
     <Compile Include="ConnectionErrorInterface\INotifyConnectionError.cs" />
     <Compile Include="Model\AnAbstractModelClass\AbstractModel.cs" />
+    <Compile Include="Model\MultiPlayerModel\MultiPlayerModel.cs" />
     <Compile Include="Model\SinglePlayerModel\SinglePlayerModel.cs" />
     <Compile Include="TheViewModel\GeneralVM\ViewModel.cs" />
+    <Compile Include="TheViewModel\MultiPlayerVM\MultiPlayerViewModel.cs" />
     <Compile Include="TheViewModel\SettingsVM\SettingsViewModel.cs" />
     <Compile Include="TheViewModel\SinglePlayerVM\SinglePlayerViewModel.cs" />
     <Compile Include="UserControls\MazeBoard.xaml.cs">
@@ -72,8 +77,14 @@
     <Compile Include="UserControls\SettingsUserControl.xaml.cs">
       <DependentUpon>SettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MultiPlayerView\GameSettingsView\MultiPlayerGamesSettingsWindow.xaml.cs">
+      <DependentUpon>MultiPlayerGamesSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GeneralSettingsView\GeneralSettingsWindow.xaml.cs">
       <DependentUpon>GeneralSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiPlayerView\GameView\MultiPlayerGameWindow.xaml.cs">
+      <DependentUpon>MultiPlayerGameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SinglePlayerView\GameSettingsView\SinglePlayerGamesSettingsWindow.xaml.cs">
       <DependentUpon>SinglePlayerGamesSettingsWindow.xaml</DependentUpon>
@@ -101,7 +112,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MultiPlayerView\GameSettingsView\MultiPlayerGamesSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GeneralSettingsView\GeneralSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MultiPlayerView\GameView\MultiPlayerGameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,6 +153,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -159,5 +179,6 @@
     <Resource Include="Resources\destinationimage.PNG" />
     <Resource Include="Resources\minionphoto.PNG" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MazeGui.View.GeneralSettingsView;
 using MazeGui.Model.SettingsModel;
 using MazeGui.View.SinglePlayerView.GameSettingsView;
+using MazeGui.View.GeneralSettingsView.GameSettingsView;
 
 namespace MazeGui
 {
@@ -44,8 +45,12 @@ namespace MazeGui
             
         }
 
-        private void multiPlayerButton_Click(object sender, RoutedEventArgs e)
+        private void MultiPlayerButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Hide();
+            ISettingsModel settingsModel = new SettingsModel();
+            MultiPlayerGamesSettingsWindow theSettingsModelWindow = new MultiPlayerGamesSettingsWindow(settingsModel);
+            theSettingsModelWindow.ShowDialog();
 
         }
     }
