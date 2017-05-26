@@ -164,7 +164,11 @@ namespace ClientDll
                 //  Console.WriteLine($"the command is: {command} ");
                 if (!communicate)
                 {
-                    CreateANewConnection();
+                    string result = CreateANewConnection();
+                    if(result.Contains("Connection Error"))
+                    {
+                        return result;
+                    }
                     communicate = true;
 
                 }

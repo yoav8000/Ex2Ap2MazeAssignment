@@ -364,7 +364,7 @@ namespace MazeGui.Model.AnAbstractModelClass
         public void SendMessageToServer(string message)
         {
             string result = myClient.WriteMessage(message);
-            if (result.Contains("ConnectionError"))
+            if (result.Contains("Connection Error"))
             {
                 Is_Enabled = false;
                 ConnectionError = result;

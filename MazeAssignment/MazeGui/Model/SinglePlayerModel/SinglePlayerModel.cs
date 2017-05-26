@@ -64,6 +64,7 @@ namespace MazeGui.Model.SinglePlayerModel
                 }
                 SendMessageToServer("generate" + " " + MazeName + " " + Rows + " " + Cols);
                 string result = RecieveMessage();
+                MyClient.Communicate = false;
                 
             }
         }
@@ -100,6 +101,110 @@ namespace MazeGui.Model.SinglePlayerModel
                 return null;
             }
             return null;
+        }
+
+        public void RestartMaze()
+        {
+            Is_Enabled = true;
+            PlayerPosition = InitialPosition;
+        }
+
+
+        private string GetSolution()
+        {
+            string resultFromServer;
+            string solution = null;
+            if (Is_Enabled)
+            {
+                SendMessageToServer("solve" + " " + MazeName + " " + SearchAlgorithm);
+                resultFromServer = RecieveMessageFromServer();
+                if (resultFromServer != null)
+                {
+                    resultFromServer = resultFromServer.Replace(@"\", "");
+                    string[] arr = resultFromServer.Split(':');
+                    arr = arr[2].Split(',');
+                    solution = arr[0];
+                }   
+            }
+            return solution;
+        }
+
+        public void StartAnimating(string solution)
+        {
+            Is_Enabled = false;
+            StringBuilder sb = new StringBuilder();
+            Task task = new Task(() =>//creating a listening thread that keeps running.
+            {
+                for (int i = 0; i < solution.Length; i++)
+                {
+                    string direction = "";
+                    switch (solution[i])
+                    {
+                        case '0':
+                            {
+                                direction = "Left";
+                                break;
+                            }
+
+                        case '1':
+                            {
+                                direction = "Right";
+                                break;
+                            }
+                        case '2':
+                            {
+                                direction = "Up";
+                                break;
+                            }
+                        case '3':
+                            {
+                                direction = "Down";
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
+
+
+
+                    }
+                    if (direction != "")
+                    {
+                        sb.Append(solution[i]);
+                        MovePlayer(direction);
+                        System.Threading.Thread.Sleep(200);
+                    }
+                }
+                MazeSolution = sb.ToString();
+            });
+            task.Start();
+        }
+
+        public void SolveMaze()
+        {
+            string solution = null;
+          
+
+            if (MazeSolution == null)
+            {
+                solution = GetSolution();
+
+            }
+            else
+            {
+                solution = MazeSolution;
+            }
+            if (solution != null)
+            {
+                if (PlayerPosition.Row != InitialPosition.Row || PlayerPosition.Col != InitialPosition.Col)
+                {
+                    RestartMaze();
+                    Is_Enabled = false;
+                }
+
+                StartAnimating(solution);
+            }
         }
 
     }

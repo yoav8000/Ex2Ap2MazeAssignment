@@ -157,7 +157,16 @@ namespace MazeGui.TheViewModel.SinglePlayerVM
             }
         }
 
-       
+        public void SolveMaze()
+        {
+            model.SolveMaze();
+        }
+
+        public void RestartMaze()
+        {
+            model.RestartMaze();
+        }
+
 
     }
 }
