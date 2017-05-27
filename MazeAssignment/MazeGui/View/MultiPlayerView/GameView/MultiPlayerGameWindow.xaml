@@ -6,14 +6,16 @@
         xmlns:local="clr-namespace:MazeGui.View.MultiPlayerView.GameView"
         xmlns:UserControls="clr-namespace:MazeGui.UserControls" x:Class="MazeGui.View.MultiPlayerView.GameView.MultiPlayerGameWindow"
         mc:Ignorable="d"
-         Title="{Binding VM_MazeName}"  Height="500" Width="700">
+         Title="{Binding VM_MazeName}"  Height="750" Width="1300">
     <Grid>
         <UserControls:MazeBoard x:Name="MyBoard" HorizontalAlignment="Left" Maze="{Binding VM_Maze}" GoalPosition="{Binding VM_GoalPosition}" InitialPosition="{Binding VM_InitialPosition}"
-                                     Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"    PlayerPosition="{Binding VM_PlayerPosition}" Loaded="MazeBoard_Loaded" Height="300" Margin="10,159,0,0" VerticalAlignment="Top" Width="345"/>
-        <UserControls:MazeBoard x:Name="OtherPlayerBoard" HorizontalAlignment="Left" Maze="{Binding VM_Maze}" GoalPosition="{Binding VM_GoalPosition}" InitialPosition="{Binding VM_InitialPosition}"
-                                     Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"    PlayerPosition="{Binding VM_OtherPlayerPosition}" Loaded="MazeBoard_Loaded" Height="300" Margin="355,159,0,0" VerticalAlignment="Top" Width="319"/>
-        <Button Content="Back to main menu" HorizontalAlignment="Left" Margin="291,51,0,0" VerticalAlignment="Top" Width="110"/>
-        <TextBlock HorizontalAlignment="Left" Margin="457,119,0,0" TextWrapping="Wrap" Text="Other player board" VerticalAlignment="Top" RenderTransformOrigin="0.206,0.355"/>
-        <TextBlock HorizontalAlignment="Left" Margin="153,119,0,0" TextWrapping="Wrap" Text="My board" VerticalAlignment="Top" RenderTransformOrigin="0.657,0.758"/>
+                                     Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"    PlayerPosition="{Binding VM_PlayerPosition}" Loaded="MazeBoard_Loaded" Margin="10,122,0,0" VerticalAlignment="Top"/>
+
+        <UserControls:MazeBoard x:Name="OtherPlayerBoard" HorizontalAlignment="Right" Maze="{Binding VM_Maze}" GoalPosition="{Binding VM_GoalPosition}" InitialPosition="{Binding VM_InitialPosition}"
+            Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"   PlayerPosition="{Binding VM_OtherPlayerPosition}" Loaded="MazeBoard_Loaded" Margin="0,122,9.6,-0.2" VerticalAlignment="Top" />
+        <Button Content="Back to main menu" HorizontalAlignment="Left" Margin="594,44,0,0" VerticalAlignment="Top" Width="110"/>
+        <TextBlock HorizontalAlignment="Left" Margin="948,88,0,0" TextWrapping="Wrap" Text="Other player board" VerticalAlignment="Top" RenderTransformOrigin="0.206,0.355"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,88,1065.6,0" TextWrapping="Wrap" Text="My board" VerticalAlignment="Top" RenderTransformOrigin="0.657,0.758"/>
+        
     </Grid>
 </Window>

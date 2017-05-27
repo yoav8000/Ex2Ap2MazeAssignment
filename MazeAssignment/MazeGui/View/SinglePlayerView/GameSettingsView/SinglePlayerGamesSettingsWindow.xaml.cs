@@ -47,11 +47,11 @@ namespace MazeGui.View.SinglePlayerView.GameSettingsView
             try
             {
                 game.ShowDialog();
-                this.Close();
+              
             }
             catch
             {
-
+                this.Close();
             }
            
         }

@@ -142,7 +142,7 @@ namespace ClientDll
             catch
             {
                 communicate = false;
-                return "Communication with server ended";
+                return "Connection Error";
 
             }
         }
@@ -181,7 +181,7 @@ namespace ClientDll
                 catch
                 {
                     communicate = false;
-                    return "Communication Error";
+                    return "Connection Error";
                 }
             }
             return null;

@@ -33,6 +33,7 @@ namespace MazeGui
         {
             GeneralSettingsWindow g = GeneralSettingsWindow.GetInstance();
             g.ShowDialog();
+            
 
         }
 
@@ -53,5 +54,11 @@ namespace MazeGui
             theSettingsModelWindow.ShowDialog();
 
         }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            App.Current.Shutdown();
+        }
+
     }
 }

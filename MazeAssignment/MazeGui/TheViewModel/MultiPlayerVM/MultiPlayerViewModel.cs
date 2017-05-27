@@ -33,7 +33,7 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
 
         public void MovePlayer(string direction)
         {
-            model.MovePlayer(direction);
+            model.PlayCommand(direction);
         }
 
         public bool VM_Is_Enabled

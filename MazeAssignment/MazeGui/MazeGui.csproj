@@ -179,6 +179,8 @@
     <Resource Include="Resources\destinationimage.PNG" />
     <Resource Include="Resources\minionphoto.PNG" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\waitingImage.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -34,7 +34,7 @@ namespace MazeGui.View.SinglePlayerView.GameView
 
                 if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
                 {
-                    this.Close();
+                   
                 }
 
             };

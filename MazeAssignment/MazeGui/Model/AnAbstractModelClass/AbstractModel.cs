@@ -337,7 +337,7 @@ namespace MazeGui.Model.AnAbstractModelClass
                 string resultFromServer = myClient.ReadMessage();
                 if (resultFromServer != null)
                 {
-                    if (resultFromServer.Contains("ConnectionError"))
+                    if (resultFromServer.Contains("Connection Error"))
                     {
                         Is_Enabled = false;
                         ConnectionError = resultFromServer;
@@ -355,6 +355,7 @@ namespace MazeGui.Model.AnAbstractModelClass
             {
                 Is_Enabled = false;
                 ConnectionError = result;
+                Disconnect();
             }
         }
 

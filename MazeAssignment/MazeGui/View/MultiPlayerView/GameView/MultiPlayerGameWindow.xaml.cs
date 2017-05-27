@@ -24,19 +24,26 @@ namespace MazeGui.View.MultiPlayerView.GameView
     public partial class MultiPlayerGameWindow : Window
     {
         private MultiPlayerViewModel vm;
-
+        private bool keyDownEventWasRegister;
         public MultiPlayerGameWindow(ISettingsModel settingModel,MultiPlayerViewModel vm , string mazeName, string buttonPressed)
         {
             this.vm = vm;
-           
+            keyDownEventWasRegister = false;
             vm.ConnectionErrorOccurred += delegate (object sender, PropertyChangedEventArgs e)
             {
 
                 if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
                 {
-                    this.Close();
-                }
+                    try
+                    {
+                       
+                        this.Close();
+                    }
+                    catch
+                    {
 
+                    }
+                }
             };
 
             switch (buttonPressed)
@@ -61,13 +68,16 @@ namespace MazeGui.View.MultiPlayerView.GameView
             InitializeComponent();
 
 
-
         }
 
         private void MazeBoard_Loaded(object sender, RoutedEventArgs e)
         {
-            Window window = Window.GetWindow(this);
-            window.KeyDown += HandleKeyPress;
+            if (keyDownEventWasRegister == false)
+            {
+                Window window = Window.GetWindow(this);
+                window.KeyDown += HandleKeyPress;
+                keyDownEventWasRegister = true;
+            }
         }
 
         private void HandleKeyPress(object sender, KeyEventArgs e)

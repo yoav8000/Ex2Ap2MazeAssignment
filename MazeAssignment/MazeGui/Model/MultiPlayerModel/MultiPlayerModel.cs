@@ -17,6 +17,8 @@ namespace MazeGui.Model.MultiPlayerModel
     {
         private ObservableCollection<string> gamesList;
         private Position otherPlayerPosition;
+        
+
 
         public MultiPlayerModel(ISettingsModel settingsModel, string mazeName) : base(settingsModel, mazeName)
         {
@@ -27,7 +29,7 @@ namespace MazeGui.Model.MultiPlayerModel
                 MyClient = new Client(IpAddress, PortNumber);
                 if (MyClient.Communicate == false)
                 {
-                    ConnectionError = "ConnectionError";
+                    ConnectionError = "Connection Error";
                     return;
                 }
             }
@@ -49,7 +51,7 @@ namespace MazeGui.Model.MultiPlayerModel
                     MyClient = new Client(IpAddress, PortNumber);
                     if (MyClient.Communicate == false)
                     {
-                        ConnectionError = "ConnectionError";
+                        ConnectionError = "Connection Error";
                         return;
                     }
                 }
@@ -63,6 +65,7 @@ namespace MazeGui.Model.MultiPlayerModel
                     InitialPosition = ResultMaze.InitialPos;
                     GoalPosition = ResultMaze.GoalPos;
                     PlayerPosition = ResultMaze.InitialPos;
+                    OtherPlayerPosition = PlayerPosition;
                     Rows = ResultMaze.Rows.ToString();
                     Cols = ResultMaze.Cols.ToString();
                     StartListeningToServer();
@@ -71,6 +74,13 @@ namespace MazeGui.Model.MultiPlayerModel
             }
         }
 
+
+
+        public void PlayCommand(string direcion)
+        {
+            MovePlayer(direcion);
+            SendMessageToServer("play" + " " + direcion);
+        }
 
 
         public void JoinMazeCommand(string mazeName)
@@ -83,7 +93,7 @@ namespace MazeGui.Model.MultiPlayerModel
                     MyClient = new Client(IpAddress, PortNumber);
                     if (MyClient.Communicate == false)
                     {
-                        ConnectionError = "ConnectionError";
+                        ConnectionError = "Connection Error";
                         return;
                     }
                 }
@@ -97,6 +107,7 @@ namespace MazeGui.Model.MultiPlayerModel
                     InitialPosition = ResultMaze.InitialPos;
                     GoalPosition = ResultMaze.GoalPos;
                     PlayerPosition = ResultMaze.InitialPos;
+                    OtherPlayerPosition = PlayerPosition;
                     Rows = ResultMaze.Rows.ToString();
                     Cols = ResultMaze.Cols.ToString();
                     StartListeningToServer();
@@ -108,9 +119,94 @@ namespace MazeGui.Model.MultiPlayerModel
 
         public void StartListeningToServer()
         {
+            Task task = new Task(() =>//create a reading thread from the server.
+            {
+                while (MyClient.Communicate)
+                {
+                    try
+                    {
+                        string result = RecieveMessageFromServer();
+                    
 
+                        if (result != null)
+                        {
+
+                            if(result.Contains("Connection Error"))
+                            {
+                                break;
+                            }
+
+                            string direction = null;
+
+                            if (result.Contains("Direction"))
+                            {
+                                if (result.Contains("Right"))
+                                {
+                                    direction = "Right";
+                                }
+                                else if (result.Contains("Left"))
+                                {
+                                    direction = "Left";
+                                }
+                                else if (result.Contains("Up"))
+                                {
+                                    direction = "Up";
+                                }
+                                else if (result.Contains("Down"))
+                                {
+                                    direction = "Down";
+                                }
+
+                                if (PlayerCanMove(OtherPlayerPosition, direction))
+                                {
+                                    switch (direction)
+                                    {
+                                        case "Down":
+                                            {
+
+                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row + 1, OtherPlayerPosition.Col);
+                                                break;
+                                            }
+                                        case "Up":
+                                            {
+
+                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row - 1, OtherPlayerPosition.Col);
+                                                break;
+                                            }
+                                        case "Right":
+                                            {
+
+                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row, OtherPlayerPosition.Col + 1);
+                                                break;
+                                            }
+                                        case "Left":
+                                            {
+
+                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row, OtherPlayerPosition.Col - 1);
+                                                break;
+                                            }
+                                        default:
+                                            {
+
+                                                break;
+                                            }
+                                    }
+                                }
+                            }
+                            else if (result.Contains("Close"))
+                            {
+                                //do something for close.
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            });
+            task.Start();
         }
-
 
         public Position OtherPlayerPosition
         {

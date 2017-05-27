@@ -41,19 +41,30 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;
-            this.Hide();
+            
+            this.waitingImage.Visibility = Visibility.Visible;
+            this.Activate();
+
             MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName, "Start");
             try
             {
-                this.Close();
+                this.Hide();
                 game.ShowDialog();
-             
+                this.Close();
             }
             catch
             {
 
             }
         }
+
+
+        protected override void OnClosed(EventArgs e)
+        {
+            MainWindow window = new MainWindow();
+            window.ShowDialog();
+        }
+
 
         private void JoinGameButton_Click(object sender, RoutedEventArgs e)
         {
@@ -62,9 +73,9 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
             MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName,"Join");
             try
             {
-                this.Close();
+
                 game.ShowDialog();
-                
+                this.Close();
             }
             catch
             {
