@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MazeGui.View.breakPointWindow;
 
 namespace MazeGui.View.GeneralSettingsView.GameSettingsView
 {
@@ -41,14 +42,22 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;
+            waitingImage.Visibility = Visibility.Visible;
+            Window win = new BreakPointWindow();
+            win.Show();
+            win.Close();
+
             this.waitingImage.Visibility = Visibility.Visible;
-            this.Activate();
+
 
             MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName, "Start");
             try
             {
                 this.Hide();
-                game.ShowDialog();
+                if (vm.VM_Maze != null)
+                {
+                    game.ShowDialog();
+                }
                 this.Close();
             }
             catch
@@ -72,7 +81,7 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
             MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName,"Join");
             try
             {
-
+                this.Hide();
                 game.ShowDialog();
                 this.Close();
             }

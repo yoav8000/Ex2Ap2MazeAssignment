@@ -58,7 +58,10 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
             }
         }
 
-
+        public void CloseGame()
+        {
+            model.CloseCommand();
+        }
 
         public void MovePlayer(string direction)
         {
@@ -70,6 +73,10 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
             get
             {
                 return Model.Is_Enabled;
+            }
+            set
+            {
+                Model.Is_Enabled = value;
             }
         }
 

@@ -104,6 +104,19 @@ namespace MazeGui.Model.MultiPlayerModel
                 }
 
             }
+            else
+            {
+                ConnectionError = "Connection Error";
+                return;
+            }
+        }
+
+
+        public void CloseCommand()
+        {
+
+            SendMessageToServer("close" + " " + MazeName);
+
         }
 
 
@@ -111,7 +124,7 @@ namespace MazeGui.Model.MultiPlayerModel
 
         public void PlayCommand(string direcion)
         {
-            SendMessageToServer("play" + " " + direcion);
+             SendMessageToServer("play" + " " + direcion);
             MovePlayer(direcion);
            
         }
@@ -150,6 +163,10 @@ namespace MazeGui.Model.MultiPlayerModel
             }
         }
 
+
+
+
+
         private string check;
         public string Check
         {
@@ -173,8 +190,8 @@ namespace MazeGui.Model.MultiPlayerModel
                     try
                     {
                         string result = RecieveMessageFromServer();
-                    
 
+                        Check = result;
                         if (result != null)
                         {
 
@@ -249,9 +266,10 @@ namespace MazeGui.Model.MultiPlayerModel
 
                                 }
                             }
-                            else if (result.Contains("Close"))
+                            else if (result.Contains("The Game Was Closed"))
                             {
                                 Check = "aaa";
+                                Is_Enabled = false;
                                 FinishGame = true;
                                 MyClient.Communicate = false;
                             }

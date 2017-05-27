@@ -25,10 +25,13 @@ namespace MazeGui.View.MultiPlayerView.GameView
     {
         private MultiPlayerViewModel vm;
         private bool keyDownEventWasRegister;
+      
+
         public MultiPlayerGameWindow(ISettingsModel settingModel,MultiPlayerViewModel vm , string mazeName, string buttonPressed)
         {
             this.vm = vm;
             keyDownEventWasRegister = false;
+
             vm.ConnectionErrorOccurred += delegate (object sender, PropertyChangedEventArgs e)
             {
 
@@ -53,7 +56,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
                     {
                         try
                         {
-
+                            vm.VM_Is_Enabled = false;
                             this.Close();
                         }
                         catch
@@ -105,7 +108,10 @@ namespace MazeGui.View.MultiPlayerView.GameView
             }
 
             this.DataContext = vm;
-            InitializeComponent();
+            if (vm.VM_Maze != null)
+            {
+                InitializeComponent();
+            }
 
 
         }
@@ -157,7 +163,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
                     vm.MovePlayer(direction);
                     if (vm.VM_PlayerPosition.Row == vm.VM_GoalPosition.Row && vm.VM_PlayerPosition.Col == vm.VM_GoalPosition.Col)
                     {
-                        if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.No)
+                        if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.OK)
                         {
 
                         }
@@ -167,5 +173,32 @@ namespace MazeGui.View.MultiPlayerView.GameView
             }
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            int xGoal = vm.VM_GoalPosition.Row;
+            int yGoal = vm.VM_GoalPosition.Col;
+            if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal))
+            {
+                vm.CloseGame();
+            }
+        }
+
+
+        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you suer you want to go back to main menu?", "Return to main menu", MessageBoxButton.OK) == MessageBoxResult.OK)
+            {
+                int xGoal = vm.VM_GoalPosition.Row;
+                int yGoal = vm.VM_GoalPosition.Col;
+                if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal))
+                {
+                    vm.CloseGame();
+                }
+                this.Hide();
+                this.Close();
+                MainWindow mainWin = new MainWindow();
+                mainWin.ShowDialog();
+            }
+        }
     }
 }

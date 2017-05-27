@@ -78,6 +78,9 @@
     <Compile Include="UserControls\SettingsUserControl.xaml.cs">
       <DependentUpon>SettingsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\breakPointWindow\BreakPointWindow.xaml.cs">
+      <DependentUpon>BreakPointWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MultiPlayerView\GameSettingsView\MultiPlayerGamesSettingsWindow.xaml.cs">
       <DependentUpon>MultiPlayerGamesSettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\breakPointWindow\BreakPointWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,6 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\waitingImage.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Guy-waiting-around.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -65,7 +65,7 @@ namespace MazeGui.View.SinglePlayerView.GameView
             {
 
                 Close();
-                MainWindow mainWin = new MainWindow();
+                 MainWindow mainWin = new MainWindow();
                 mainWin.ShowDialog();
 
             }

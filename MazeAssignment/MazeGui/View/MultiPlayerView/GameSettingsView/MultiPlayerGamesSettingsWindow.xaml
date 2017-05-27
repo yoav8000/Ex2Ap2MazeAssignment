@@ -25,8 +25,8 @@
         <Button x:Name="JoinGameButton" Content="Join Game" Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Click="JoinGameButton_Click" />
 
         <UserControls:SettingsUserControl x:Name="MazeSettingsUC" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="120" Margin="5,20.6,0,-135.8" Grid.Row="2" VerticalAlignment="Top" Width="255"/>
-        <Button x:Name="StartGameButton" Content="Start Game" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="20,141.2,0,-139.4"  VerticalAlignment="Bottom" Width="75" Click="StartGameButton_Click" />
-        <Image x:Name="waitingImage" Visibility="Hidden" Source="pack://application:,,,/MazeGui;component/Resources/waitingImage.png"  Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="73" Margin="0,106.2,0,-154.4" Grid.Row="3" VerticalAlignment="Top" Width="80"/>
+        <Button x:Name="StartGameButton" Content="Start Game" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="20.2,0,0,-128.4"  VerticalAlignment="Bottom" Width="75" Click="StartGameButton_Click" />
+        <Image x:Name="waitingImage" Visibility="Hidden"  Source="pack://application:,,,/MazeGui;component/Resources/Guy-waiting-around.jpg"  Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="246" Margin="0,0,0,-139.6" VerticalAlignment="Top" Width="254" Grid.RowSpan="4"/>
 
     </Grid>
 </Window>

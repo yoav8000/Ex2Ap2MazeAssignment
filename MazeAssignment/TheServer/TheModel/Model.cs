@@ -430,11 +430,13 @@ namespace TheServer.TheModel
                 }
                 MazeGame game = ActiveMultiPlayerMazes[mazeName];//getting the game.
 
-                game.NotifyAllPlayers("The Game Was Closed");//for me.
+                game.NotifyOtherPlayers("The Game Was Closed", player);//for me.
 
                 RemovePlayersFromPlayersAndGames(mazeName); //getting the players of the dictionary of the players and games
          //       game.CloseAllClients();
                 activeMultiPlayerMazes.Remove(mazeName);
+
+           
                 return "";
          
         }
