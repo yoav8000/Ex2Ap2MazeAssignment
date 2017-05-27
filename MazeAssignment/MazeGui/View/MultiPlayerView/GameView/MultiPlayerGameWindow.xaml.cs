@@ -46,6 +46,46 @@ namespace MazeGui.View.MultiPlayerView.GameView
                 }
             };
 
+            vm.GameWasClosed += delegate (string message) {
+                if ((vm.VM_OtherPlayerPosition).Row == (vm.VM_GoalPosition).Row && (vm.VM_OtherPlayerPosition).Col == (vm.VM_GoalPosition).Col)
+                {
+                    if (MessageBox.Show("Unfortunatly you lost the game", "You Lost", MessageBoxButton.OK) == MessageBoxResult.OK)
+                    {
+                        try
+                        {
+
+                            this.Close();
+                        }
+                        catch
+                        {
+
+                        }
+
+                    }
+                }
+                else
+                {
+
+                    if (MessageBox.Show("The other player closed the game", "Other player closed the game", MessageBoxButton.OK) == MessageBoxResult.OK)
+                    {
+                        try
+                        {
+
+                            this.Close();
+                        }
+                        catch
+                        {
+
+                        }
+
+
+                    }
+                }
+
+                
+            };
+
+
             switch (buttonPressed)
             {
                 case "Start":
@@ -115,7 +155,14 @@ namespace MazeGui.View.MultiPlayerView.GameView
                 if (direction != "" && MyBoard.PlayerPosition != MyBoard.GoalPosition)
                 {
                     vm.MovePlayer(direction);
+                    if (vm.VM_PlayerPosition.Row == vm.VM_GoalPosition.Row && vm.VM_PlayerPosition.Col == vm.VM_GoalPosition.Col)
+                    {
+                        if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.No)
+                        {
 
+                        }
+
+                    }
                 }
             }
         }

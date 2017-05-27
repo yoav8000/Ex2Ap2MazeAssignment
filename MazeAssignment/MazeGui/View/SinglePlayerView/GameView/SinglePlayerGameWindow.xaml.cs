@@ -65,8 +65,8 @@ namespace MazeGui.View.SinglePlayerView.GameView
             {
 
                 Close();
-                // MainWindow mainWin = new MainWindow();
-                //mainWin.ShowDialog();
+                MainWindow mainWin = new MainWindow();
+                mainWin.ShowDialog();
 
             }
         }
@@ -132,6 +132,14 @@ namespace MazeGui.View.SinglePlayerView.GameView
                 if (direction != "" && MazeBoard.PlayerPosition != MazeBoard.GoalPosition)
                 {
                     vm.MovePlayer(direction);
+                    if (vm.VM_PlayerPosition.Row == vm.VM_GoalPosition.Row && vm.VM_PlayerPosition.Col == vm.VM_GoalPosition.Col)
+                    {
+                        if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.No)
+                        {
+
+                        }
+
+                    }
                 }
             }
         }

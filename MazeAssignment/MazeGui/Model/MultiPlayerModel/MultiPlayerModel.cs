@@ -9,15 +9,45 @@ using System.Collections.ObjectModel;
 using MazeGui.Model.SettingsModel;
 using Newtonsoft.Json;
 using ClientDll;
+using MazeGui.NoifyGameClosedInterface;
 
 namespace MazeGui.Model.MultiPlayerModel
 {
 
-    public class MultiPlayerModel: AbstractModel
+    public class MultiPlayerModel : AbstractModel, INotifyGameWasClosed
     {
         private ObservableCollection<string> gamesList;
         private Position otherPlayerPosition;
-        
+        private bool finishGame;
+        private bool lostTheGame;
+        public event GameWasClosedEventHandler GameWasClosed;
+
+        public bool FinishGame
+        {
+            get
+            {
+                return finishGame;
+            }
+            set
+            {
+                finishGame = value;
+                NotifyGameWasClosed("GameWasClosed");
+            }
+        }
+
+
+
+
+        public void NotifyGameWasClosed(string propName)
+        {
+            if (this.GameWasClosed != null)
+            {
+                this.GameWasClosed("GameWasClosed");
+            }
+        }
+
+
+
 
 
         public MultiPlayerModel(ISettingsModel settingsModel, string mazeName) : base(settingsModel, mazeName)
@@ -33,6 +63,8 @@ namespace MazeGui.Model.MultiPlayerModel
                     return;
                 }
             }
+            finishGame = false;
+            lostTheGame = false;
             ListCommand();
         }
 
@@ -70,16 +102,18 @@ namespace MazeGui.Model.MultiPlayerModel
                     Cols = ResultMaze.Cols.ToString();
                     StartListeningToServer();
                 }
-               
+
             }
         }
 
 
 
+
         public void PlayCommand(string direcion)
         {
-            MovePlayer(direcion);
             SendMessageToServer("play" + " " + direcion);
+            MovePlayer(direcion);
+           
         }
 
 
@@ -97,7 +131,7 @@ namespace MazeGui.Model.MultiPlayerModel
                         return;
                     }
                 }
-                SendMessageToServer("join" + " " + MazeName );
+                SendMessageToServer("join" + " " + MazeName);
                 string resultFromServer = RecieveMessageFromServer();
                 if (resultFromServer.Contains("Maze"))
                 {
@@ -113,6 +147,19 @@ namespace MazeGui.Model.MultiPlayerModel
                     StartListeningToServer();
                 }
 
+            }
+        }
+
+        private string check;
+        public string Check
+        {
+            get
+            {
+                return this.check;
+            }
+            set
+            {
+                this.check = value;
             }
         }
 
@@ -191,11 +238,22 @@ namespace MazeGui.Model.MultiPlayerModel
                                                 break;
                                             }
                                     }
+
+                                    if(OtherPlayerPosition.Row == GoalPosition.Row && OtherPlayerPosition.Col == GoalPosition.Col)
+                                    {
+                                        Check = "aaa";
+
+                                        FinishGame = true;
+                                        MyClient.Communicate = false;
+                                    }
+
                                 }
                             }
                             else if (result.Contains("Close"))
                             {
-                                //do something for close.
+                                Check = "aaa";
+                                FinishGame = true;
+                                MyClient.Communicate = false;
                             }
                         }
                     }

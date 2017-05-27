@@ -67,6 +67,7 @@
     <Compile Include="Model\AnAbstractModelClass\AbstractModel.cs" />
     <Compile Include="Model\MultiPlayerModel\MultiPlayerModel.cs" />
     <Compile Include="Model\SinglePlayerModel\SinglePlayerModel.cs" />
+    <Compile Include="NoifyGameClosedInterface\INotifyGameWasClosed.cs" />
     <Compile Include="TheViewModel\GeneralVM\ViewModel.cs" />
     <Compile Include="TheViewModel\MultiPlayerVM\MultiPlayerViewModel.cs" />
     <Compile Include="TheViewModel\SettingsVM\SettingsViewModel.cs" />

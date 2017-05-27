@@ -41,7 +41,6 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;
-            
             this.waitingImage.Visibility = Visibility.Visible;
             this.Activate();
 

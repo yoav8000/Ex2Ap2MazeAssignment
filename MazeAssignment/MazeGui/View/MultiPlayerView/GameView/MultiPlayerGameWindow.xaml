@@ -6,16 +6,16 @@
         xmlns:local="clr-namespace:MazeGui.View.MultiPlayerView.GameView"
         xmlns:UserControls="clr-namespace:MazeGui.UserControls" x:Class="MazeGui.View.MultiPlayerView.GameView.MultiPlayerGameWindow"
         mc:Ignorable="d"
-         Title="{Binding VM_MazeName}"  Height="750" Width="1300">
+         Title="{Binding VM_MazeName}"  Height="750" Width="1000">
     <Grid>
         <UserControls:MazeBoard x:Name="MyBoard" HorizontalAlignment="Left" Maze="{Binding VM_Maze}" GoalPosition="{Binding VM_GoalPosition}" InitialPosition="{Binding VM_InitialPosition}"
-                                     Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"    PlayerPosition="{Binding VM_PlayerPosition}" Loaded="MazeBoard_Loaded" Margin="10,122,0,0" VerticalAlignment="Top"/>
+                                     Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"    PlayerPosition="{Binding VM_PlayerPosition}" Loaded="MazeBoard_Loaded" Margin="10,271,0,0" VerticalAlignment="Top" Height="449" Width="397"/>
 
         <UserControls:MazeBoard x:Name="OtherPlayerBoard" HorizontalAlignment="Right" Maze="{Binding VM_Maze}" GoalPosition="{Binding VM_GoalPosition}" InitialPosition="{Binding VM_InitialPosition}"
-            Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"   PlayerPosition="{Binding VM_OtherPlayerPosition}" Loaded="MazeBoard_Loaded" Margin="0,122,9.6,-0.2" VerticalAlignment="Top" />
-        <Button Content="Back to main menu" HorizontalAlignment="Left" Margin="594,44,0,0" VerticalAlignment="Top" Width="110"/>
-        <TextBlock HorizontalAlignment="Left" Margin="948,88,0,0" TextWrapping="Wrap" Text="Other player board" VerticalAlignment="Top" RenderTransformOrigin="0.206,0.355"/>
-        <TextBlock HorizontalAlignment="Right" Margin="0,88,1065.6,0" TextWrapping="Wrap" Text="My board" VerticalAlignment="Top" RenderTransformOrigin="0.657,0.758"/>
-        
+            Rows="{Binding VM_Rows}" Cols="{Binding VM_Cols}"   PlayerPosition="{Binding VM_OtherPlayerPosition}" Loaded="MazeBoard_Loaded" Margin="0,271,64.6,-0.2" VerticalAlignment="Top" Height="450" Width="397" />
+        <Button Content="Back to main menu" HorizontalAlignment="Left" Margin="412,222,0,0" VerticalAlignment="Top" Width="110"/>
+        <TextBlock HorizontalAlignment="Left" Margin="675,250,0,0" TextWrapping="Wrap" Text="Other player board" VerticalAlignment="Top" RenderTransformOrigin="0.206,0.355" Width="133"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,250,765.6,0" TextWrapping="Wrap" Text="My board" VerticalAlignment="Top" RenderTransformOrigin="0.657,0.758" Height="27" Width="75"/>
+
     </Grid>
 </Window>

@@ -62,7 +62,8 @@ namespace MazeGui.Model.SinglePlayerModel
                         ConnectionError = "ConnectionError";
                     }
                 }
-                if (!ConnectionError.Contains("ConnectionError"))
+
+                if (ConnectionError== null || !ConnectionError.Contains("ConnectionError"))
                 {
                     SendMessageToServer("generate" + " " + MazeName + " " + Rows + " " + Cols);
                     string result = RecieveMessage();

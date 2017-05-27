@@ -7,13 +7,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MazeGui.NoifyGameClosedInterface;
 
 namespace MazeGui.TheViewModel.MultiPlayerVM
 {
-   public class MultiPlayerViewModel : MazeGui.ViewModel.GeneralVM.ViewModel
+   public class MultiPlayerViewModel : MazeGui.ViewModel.GeneralVM.ViewModel , INotifyGameWasClosed
     {
         private MultiPlayerModel model;
 
+        public event GameWasClosedEventHandler GameWasClosed;
 
         public MultiPlayerViewModel(MultiPlayerModel model)
         {
@@ -28,7 +30,34 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
             {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
+
+            model.GameWasClosed += delegate (string message)
+            {
+                NotifyGameWasClosed("VM_" + "GameWasClosed");
+            };
+
         }
+
+
+
+        public void NotifyGameWasClosed(string propName)
+        {
+            if (this.GameWasClosed != null)
+            {
+                this.GameWasClosed("GameWasClosed");
+            }
+        }
+
+
+
+        public bool VM_GameWasClosed
+        {
+            get
+            {
+                return Model.FinishGame;
+            }
+        }
+
 
 
         public void MovePlayer(string direction)

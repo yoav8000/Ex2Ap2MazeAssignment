@@ -315,14 +315,14 @@ namespace MazeGui.UserControls
 
             mazeBoard.MovePlayerRec(x, y);
 
-            if (xGoal == x && yGoal == y)
-            {
-                if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.No)
-                {
+            //if (xGoal == x && yGoal == y)
+            //{
+            //    if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.No)
+            //    {
 
-                }
+            //    }
                 
-            }
+            //}
 
         }
 
