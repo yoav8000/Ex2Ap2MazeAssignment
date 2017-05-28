@@ -220,102 +220,110 @@ namespace MazeGui.Model.MultiPlayerModel
         {
             Task task = new Task(() =>//create a reading thread from the server.
             {
-                while (MyClient.Communicate)
+                try
                 {
-                    try
+                    while (MyClient.Communicate)
                     {
-                        string result = RecieveMessageFromServer();
-
-                        
-                        if (result != null)
+                        try
                         {
+                            string result = RecieveMessageFromServer();
 
-                            if(result.Contains("Connection Error")) //connection error.
+
+                            if (result != null)
                             {
-                                break;
-                            }
 
-                            string direction = null;
+                                if (result.Contains("Connection Error")) //connection error.
+                                {
+                                    break;
+                                }
 
-                            //the other player moved.
-                            if (result.Contains("Direction"))
-                            {
-                                if (result.Contains("Right"))
+                                string direction = null;
+
+                                //the other player moved.
+                                if (result.Contains("Direction"))
                                 {
-                                    direction = "Right";
-                                }
-                                else if (result.Contains("Left"))
-                                {
-                                    direction = "Left";
-                                }
-                                else if (result.Contains("Up"))
-                                {
-                                    direction = "Up";
-                                }
-                                else if (result.Contains("Down"))
-                                {
-                                    direction = "Down";
-                                }
-                                //moves the other player.
-                                if (PlayerCanMove(OtherPlayerPosition, direction))
-                                {
-                                    switch (direction)
+                                    if (result.Contains("Right"))
                                     {
-                                        case "Down":
-                                            {
-
-                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row + 1, OtherPlayerPosition.Col);
-                                                break;
-                                            }
-                                        case "Up":
-                                            {
-
-                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row - 1, OtherPlayerPosition.Col);
-                                                break;
-                                            }
-                                        case "Right":
-                                            {
-
-                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row, OtherPlayerPosition.Col + 1);
-                                                break;
-                                            }
-                                        case "Left":
-                                            {
-
-                                                OtherPlayerPosition = new Position(OtherPlayerPosition.Row, OtherPlayerPosition.Col - 1);
-                                                break;
-                                            }
-                                        default:
-                                            {
-
-                                                break;
-                                            }
+                                        direction = "Right";
                                     }
-                                    //check if reached to the goal position.
-                                    if(OtherPlayerPosition.Row == GoalPosition.Row && OtherPlayerPosition.Col == GoalPosition.Col)
+                                    else if (result.Contains("Left"))
                                     {
-                                        
-
-                                        FinishGame = true;
-                                        MyClient.Communicate = false;
+                                        direction = "Left";
                                     }
+                                    else if (result.Contains("Up"))
+                                    {
+                                        direction = "Up";
+                                    }
+                                    else if (result.Contains("Down"))
+                                    {
+                                        direction = "Down";
+                                    }
+                                    //moves the other player.
+                                    if (PlayerCanMove(OtherPlayerPosition, direction))
+                                    {
+                                        switch (direction)
+                                        {
+                                            case "Down":
+                                                {
 
+                                                    OtherPlayerPosition = new Position(OtherPlayerPosition.Row + 1, OtherPlayerPosition.Col);
+                                                    break;
+                                                }
+                                            case "Up":
+                                                {
+
+                                                    OtherPlayerPosition = new Position(OtherPlayerPosition.Row - 1, OtherPlayerPosition.Col);
+                                                    break;
+                                                }
+                                            case "Right":
+                                                {
+
+                                                    OtherPlayerPosition = new Position(OtherPlayerPosition.Row, OtherPlayerPosition.Col + 1);
+                                                    break;
+                                                }
+                                            case "Left":
+                                                {
+
+                                                    OtherPlayerPosition = new Position(OtherPlayerPosition.Row, OtherPlayerPosition.Col - 1);
+                                                    break;
+                                                }
+                                            default:
+                                                {
+
+                                                    break;
+                                                }
+                                        }
+                                        //check if reached to the goal position.
+                                        if (OtherPlayerPosition.Row == GoalPosition.Row && OtherPlayerPosition.Col == GoalPosition.Col)
+                                        {
+
+
+                                            FinishGame = true;
+                                            MyClient.Communicate = false;
+                                        }
+
+                                    }
                                 }
-                            }
-                            //checks if the game was closed by the other player.
-                            else if (result.Contains("The Game Was Closed"))
-                            {
-                               
-                                Is_Enabled = false;
-                                FinishGame = true;
-                                MyClient.Communicate = false;
+                                //checks if the game was closed by the other player.
+                                else if (result.Contains("The Game Was Closed"))
+                                {
+
+                                    Is_Enabled = false;
+                                    FinishGame = true;
+                                    MyClient.Communicate = false;
+                                    MyClient = null;
+                                }
                             }
                         }
+                        catch
+                        {
+
+                        }
                     }
-                    catch
-                    {
-                        
-                    }
+                }
+                catch
+                {
+                    int x = 2;
                 }
             });
             task.Start(); // starts the task.
@@ -341,6 +349,15 @@ namespace MazeGui.Model.MultiPlayerModel
             }
         }
 
+        /// <summary>
+        /// Nullifies the client.
+        /// </summary>
+        public void NullifyClient()
+        {
+                MyClient.StreamReader = null;
+                MyClient = null;
+            
+        }
 
         /// <summary>
         /// Gets or sets the games list.

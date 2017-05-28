@@ -142,7 +142,14 @@ namespace ClientDll
             catch
             {
                 communicate = false;
-                return "Connection Error";
+                if (StreamReader != null)
+                {
+                    return "Connection Error";
+                }
+                else
+                {
+                    return null;
+                }
 
             }
         }

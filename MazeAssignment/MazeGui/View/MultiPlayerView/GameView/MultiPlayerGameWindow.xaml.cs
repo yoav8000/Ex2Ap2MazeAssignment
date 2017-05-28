@@ -74,6 +74,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
                         {
                             lostTheGame = true;
                             vm.VM_Is_Enabled = true;
+                            vm.NullifyClient();
                             this.Close();
                         }
                         catch
@@ -192,9 +193,10 @@ namespace MazeGui.View.MultiPlayerView.GameView
                     vm.MovePlayer(direction);
                     if (vm.VM_PlayerPosition.Row == vm.VM_GoalPosition.Row && vm.VM_PlayerPosition.Col == vm.VM_GoalPosition.Col)
                     {
+                        
                         if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.OK)
                         {
-
+                            vm.NullifyClient();
                         }
 
                     }
@@ -214,6 +216,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
             if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal) && vm.VM_Is_Enabled)
             {
                 vm.CloseGame();
+                vm.NullifyClient();
             }
         }
 
@@ -225,13 +228,14 @@ namespace MazeGui.View.MultiPlayerView.GameView
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you suer you want to go back to main menu?", "Return to main menu", MessageBoxButton.OK) == MessageBoxResult.OK)
+            if (MessageBox.Show("Are you sure you want to go back to main menu?", "Return to main menu", MessageBoxButton.OK) == MessageBoxResult.OK)
             {
                 int xGoal = vm.VM_GoalPosition.Row;
                 int yGoal = vm.VM_GoalPosition.Col;
                 if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal))
                 {
                     vm.CloseGame();
+                    vm.NullifyClient();
                 }
                 this.Hide();
                 this.Close();

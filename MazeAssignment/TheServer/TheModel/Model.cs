@@ -248,7 +248,7 @@ namespace TheServer.TheModel
         public string GenerateMultiPlayerMaze(string name, int rows, int cols,Player player)
         {
            
-                if ((joinableMazes.ContainsKey(name)) || (activeMultiPlayerMazes.ContainsKey(name)))
+                if (joinableMazes.ContainsKey(name))
                 {
                     return "Error: there is a maze with the same name";
                 }

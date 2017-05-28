@@ -444,12 +444,19 @@ namespace MazeGui.Model.AnAbstractModelClass
         /// <param name="message">The message.</param>
         public void SendMessageToServer(string message)
         {
-            string result = myClient.WriteMessage(message);
-            if (result.Contains("Connection Error"))
+            try
             {
-                Is_Enabled = false;
-                ConnectionError = result;
-                Disconnect();
+                string result = myClient.WriteMessage(message);
+                if (result.Contains("Connection Error"))
+                {
+                    Is_Enabled = false;
+                    ConnectionError = result;
+                    Disconnect();
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -469,9 +476,12 @@ namespace MazeGui.Model.AnAbstractModelClass
             }
             set
             {
-                this.connectionError = value;
-                this.isEnabled = false;
-                NotifyConnectionError("ConnectionError");
+                if (value != null)
+                {
+                    this.connectionError = value;
+                    this.isEnabled = false;
+                    NotifyConnectionError("ConnectionError");
+                }
             }
         }
 

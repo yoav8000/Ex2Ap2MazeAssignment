@@ -63,6 +63,19 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
         }
 
 
+        public void NullifyClient()
+        {
+            try
+            {
+                Model.MyClient.StreamReader = null;
+                Model.MyClient = null;
+            }
+            catch
+            {
+
+            }
+            
+        }
 
         /// <summary>
         /// Gets a value indicating whether [vm game was closed].
