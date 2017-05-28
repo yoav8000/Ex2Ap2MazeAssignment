@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 namespace MazeGui.NoifyGameClosedInterface
 {
 
-    public delegate void GameWasClosedEventHandler(string laseCommand);
 
+    /// <summary>
+    /// interface called INotifyGameWasClosed holds an event of the type GameWasClosedEventHandler.
+    /// </summary>
     public interface INotifyGameWasClosed
     {
         event GameWasClosedEventHandler GameWasClosed;
     }
 
+    /// <summary>
+    /// delegate called  GameWasClosedEventHandler.
+    /// </summary>
+    /// <param name="laseCommand">The lase command.</param>
+    public delegate void GameWasClosedEventHandler(string laseCommand);
 }

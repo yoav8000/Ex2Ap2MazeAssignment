@@ -21,34 +21,50 @@ namespace MazeGui.View.MultiPlayerView.GameView
     /// <summary>
     /// Interaction logic for MultiPlayerGameWindow.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class MultiPlayerGameWindow : Window
     {
+        //members.
         private MultiPlayerViewModel vm;
         private bool keyDownEventWasRegister;
-      
+        private bool lostTheGame;
+        private bool registerToConnectionError;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiPlayerGameWindow"/> class.
+        /// </summary>
+        /// <param name="settingModel">The setting model.</param>
+        /// <param name="vm">The vm.</param>
+        /// <param name="mazeName">Name of the maze.</param>
+        /// <param name="buttonPressed">The button pressed.</param>
         public MultiPlayerGameWindow(ISettingsModel settingModel,MultiPlayerViewModel vm , string mazeName, string buttonPressed)
         {
+            registerToConnectionError = false;
             this.vm = vm;
             keyDownEventWasRegister = false;
-
-            vm.ConnectionErrorOccurred += delegate (object sender, PropertyChangedEventArgs e)
+            //register to the delegates.
+            if (!registerToConnectionError)
             {
-
-                if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
+                vm.ConnectionErrorOccurred += delegate (object sender, PropertyChangedEventArgs e)
                 {
-                    try
-                    {
-                       
-                        this.Close();
-                    }
-                    catch
-                    {
 
-                    }
-                }
-            };
+                    if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
+                    {
+                        try
+                        {
 
+                            this.Close();
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                };
+                registerToConnectionError = true;
+            }
+            lostTheGame = false;
             vm.GameWasClosed += delegate (string message) {
                 if ((vm.VM_OtherPlayerPosition).Row == (vm.VM_GoalPosition).Row && (vm.VM_OtherPlayerPosition).Col == (vm.VM_GoalPosition).Col)
                 {
@@ -56,7 +72,8 @@ namespace MazeGui.View.MultiPlayerView.GameView
                     {
                         try
                         {
-                            vm.VM_Is_Enabled = false;
+                            lostTheGame = true;
+                            vm.VM_Is_Enabled = true;
                             this.Close();
                         }
                         catch
@@ -87,8 +104,10 @@ namespace MazeGui.View.MultiPlayerView.GameView
 
                 
             };
+            this.vm.VM_Rows = settingModel.MazeRows.ToString();
+            this.vm.VM_Cols = settingModel.MazeCols.ToString();
 
-
+            //get the command that was called.
             switch (buttonPressed)
             {
                 case "Start":
@@ -116,6 +135,11 @@ namespace MazeGui.View.MultiPlayerView.GameView
 
         }
 
+        /// <summary>
+        /// Handles the Loaded event of the MazeBoard control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MazeBoard_Loaded(object sender, RoutedEventArgs e)
         {
             if (keyDownEventWasRegister == false)
@@ -126,9 +150,14 @@ namespace MazeGui.View.MultiPlayerView.GameView
             }
         }
 
+        /// <summary>
+        /// Handles the key press and moves the player accordingly.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if (vm.VM_Is_Enabled)
+            if (!lostTheGame)
             {
                 string direction = "";
                 switch (e.Key)
@@ -173,17 +202,27 @@ namespace MazeGui.View.MultiPlayerView.GameView
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             int xGoal = vm.VM_GoalPosition.Row;
             int yGoal = vm.VM_GoalPosition.Col;
-            if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal))
+            lostTheGame = false;
+            if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal) && vm.VM_Is_Enabled)
             {
                 vm.CloseGame();
             }
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the MainMenuButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you suer you want to go back to main menu?", "Return to main menu", MessageBoxButton.OK) == MessageBoxResult.OK)
@@ -196,6 +235,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
                 }
                 this.Hide();
                 this.Close();
+                lostTheGame = false;
                 MainWindow mainWin = new MainWindow();
                 mainWin.ShowDialog();
             }

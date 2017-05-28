@@ -21,10 +21,17 @@ namespace MazeGui.View.SinglePlayerView.GameView
     /// <summary>
     /// Interaction logic for SinglePlayerGameWindow.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class SinglePlayerGameWindow : Window
     {
         private SinglePlayerViewModel vm;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SinglePlayerGameWindow"/> class.
+        /// </summary>
+        /// <param name="settingModel">The setting model.</param>
+        /// <param name="mazeName">Name of the maze.</param>
         public SinglePlayerGameWindow(ISettingsModel settingModel,string mazeName)
         {
             this.vm = new SinglePlayerViewModel(new SinglePlayerModel(settingModel, mazeName));
@@ -34,12 +41,12 @@ namespace MazeGui.View.SinglePlayerView.GameView
 
                 if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
                 {
-                   
+                    this.Close();
                 }
 
             };
-            vm.StartNewGame();
             this.DataContext = this.vm;
+            vm.StartNewGame();
             if (vm.VM_Is_Enabled)
             {
                 InitializeComponent();
@@ -51,6 +58,11 @@ namespace MazeGui.View.SinglePlayerView.GameView
             }
         }
 
+        /// <summary>
+        /// Handles the Loaded event of the MazeBoard control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MazeBoard_Loaded(object sender, RoutedEventArgs e)
         {
           
@@ -59,6 +71,11 @@ namespace MazeGui.View.SinglePlayerView.GameView
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the MainMenuButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to go back to the main menu?", "Go back to main menu", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -71,6 +88,11 @@ namespace MazeGui.View.SinglePlayerView.GameView
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the SolveMazeButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void SolveMazeButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to solve the maze?", "Solve the maze", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -83,6 +105,11 @@ namespace MazeGui.View.SinglePlayerView.GameView
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the RestartGameButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void RestartGameButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to restart the game?", "Restart the game", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -95,12 +122,27 @@ namespace MazeGui.View.SinglePlayerView.GameView
         }
 
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        protected override void OnClosed(EventArgs e)
+        {
+            Close();
+            MainWindow mainWin = new MainWindow();
+            mainWin.ShowDialog();
+        }
 
 
+
+        /// <summary>
+        /// Handles the key press.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if (vm.VM_Is_Enabled)
-            {
+            
                 string direction = "";
                 switch (e.Key)
                 {
@@ -141,7 +183,7 @@ namespace MazeGui.View.SinglePlayerView.GameView
 
                     }
                 }
-            }
+     
         }
     }
 }

@@ -181,6 +181,7 @@ namespace MazeGui.Model.SinglePlayerModel
                     }
                 }
                 MazeSolution = sb.ToString();
+                this.Is_Enabled = true;
             });
             task.Start();
         }

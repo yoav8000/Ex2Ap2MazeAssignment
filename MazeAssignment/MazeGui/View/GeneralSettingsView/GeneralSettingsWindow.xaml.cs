@@ -15,19 +15,25 @@ using MazeGui.ViewModel;
 using MazeGui.Model.SettingsModel;
 using System.Threading;
 using MazeGui.ViewModel.SettingsVM;
+using MazeGui.View.breakPointWindow;
 
 namespace MazeGui.View.GeneralSettingsView
 {
     /// <summary>
-    /// Interaction logic for GeneralSettingsWindow.xaml
+    /// Interaction logic for GeneralSettingsWindow.xaml implemented as singleton.
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class GeneralSettingsWindow : Window
     {
-
+        //members.
         private SettingsViewModel vm;
         private static GeneralSettingsWindow instance;
         public static Mutex MuTexLock = new Mutex();
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="GeneralSettingsWindow"/> class from being created.
+        /// </summary>
         private GeneralSettingsWindow()
         {
             InitializeComponent();
@@ -35,6 +41,10 @@ namespace MazeGui.View.GeneralSettingsView
             this.DataContext = vm;
         }
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <returns></returns>
         public static GeneralSettingsWindow GetInstance()
         {
             if (MuTexLock == null)
@@ -52,22 +62,33 @@ namespace MazeGui.View.GeneralSettingsView
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the BtnOK control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void BtnOK_Click(object sender, RoutedEventArgs e)
         {
             vm.SaveSettings();
             Hide();
-            MainWindow win = (MainWindow)Application.Current.MainWindow;
-            win.Show();
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the BtnCancel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow win = (MainWindow)Application.Current.MainWindow;
-            win.Show();
-            this.Hide();
+            vm.CancelSettings();
+            this.Close();
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             instance = null;

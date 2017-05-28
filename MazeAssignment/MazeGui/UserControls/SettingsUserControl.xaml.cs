@@ -18,8 +18,13 @@ namespace MazeGui.UserControls
     /// <summary>
     /// Interaction logic for SettingsUserControl.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Controls.UserControl" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class SettingsUserControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsUserControl"/> class.
+        /// </summary>
         public SettingsUserControl()
         {
             InitializeComponent();

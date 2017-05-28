@@ -14,6 +14,11 @@ using MazeGui.NoifyGameClosedInterface;
 namespace MazeGui.Model.MultiPlayerModel
 {
 
+    /// <summary>
+    /// MultiPlayerModel implements AbstractModel and INotifyGameWasClosed.
+    /// </summary>
+    /// <seealso cref="MazeGui.Model.AnAbstractModelClass.AbstractModel" />
+    /// <seealso cref="MazeGui.NoifyGameClosedInterface.INotifyGameWasClosed" />
     public class MultiPlayerModel : AbstractModel, INotifyGameWasClosed
     {
         private ObservableCollection<string> gamesList;
@@ -22,34 +27,16 @@ namespace MazeGui.Model.MultiPlayerModel
         private bool lostTheGame;
         public event GameWasClosedEventHandler GameWasClosed;
 
-        public bool FinishGame
-        {
-            get
-            {
-                return finishGame;
-            }
-            set
-            {
-                finishGame = value;
-                NotifyGameWasClosed("GameWasClosed");
-            }
-        }
-
-
-
-
-        public void NotifyGameWasClosed(string propName)
-        {
-            if (this.GameWasClosed != null)
-            {
-                this.GameWasClosed("GameWasClosed");
-            }
-        }
 
 
 
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiPlayerModel"/> class.
+        /// </summary>
+        /// <param name="settingsModel">The settings model.</param>
+        /// <param name="mazeName">Name of the maze.</param>
         public MultiPlayerModel(ISettingsModel settingsModel, string mazeName) : base(settingsModel, mazeName)
         {
 
@@ -70,15 +57,52 @@ namespace MazeGui.Model.MultiPlayerModel
 
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [finish game].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [finish game]; otherwise, <c>false</c>.
+        /// </value>
+        public bool FinishGame
+        {
+            get
+            {
+                return finishGame;
+            }
+            set
+            {
+                finishGame = value;
+                NotifyGameWasClosed("GameWasClosed");
+            }
+        }
 
 
 
+
+        /// <summary>
+        /// Notifies the game was closed.
+        /// </summary>
+        /// <param name="propName">Name of the property.</param>
+        public void NotifyGameWasClosed(string propName)
+        {
+            if (this.GameWasClosed != null)
+            {
+                this.GameWasClosed("GameWasClosed");
+            }
+        }
+
+
+
+        /// <summary>
+        /// Generates the multiplayer maze.
+        /// </summary>
+        /// <param name="mazeName">Name of the maze.</param>
         public void GenerateMultiplayerMaze(string mazeName)
         {
             MazeName = mazeName;
             if (Is_Enabled)
             {
-                if (MyClient == null)
+                if (MyClient == null) ///check if the client is null.
                 {
                     MyClient = new Client(IpAddress, PortNumber);
                     if (MyClient.Communicate == false)
@@ -87,8 +111,14 @@ namespace MazeGui.Model.MultiPlayerModel
                         return;
                     }
                 }
+                ///send the command to the server.
                 SendMessageToServer("start" + " " + MazeName + " " + Rows + " " + Cols);
+
+                ///get the answer from the server.
+
                 string resultFromServer = RecieveMessageFromServer();
+                
+                
                 if (resultFromServer.Contains("Maze"))
                 {
                     ResultMaze = MazeLib.Maze.FromJSON(resultFromServer);
@@ -106,15 +136,19 @@ namespace MazeGui.Model.MultiPlayerModel
             }
             else
             {
-                ConnectionError = "Connection Error";
+                //there was a connectoin error.
+                ConnectionError = "Connection Error"; 
                 return;
             }
         }
 
 
+        /// <summary>
+        /// Closes the game command.
+        /// </summary>
         public void CloseCommand()
         {
-
+            
             SendMessageToServer("close" + " " + MazeName);
 
         }
@@ -122,20 +156,28 @@ namespace MazeGui.Model.MultiPlayerModel
 
 
 
+        /// <summary>
+        /// a play command.
+        /// </summary>
+        /// <param name="direcion">The direcion.</param>
         public void PlayCommand(string direcion)
         {
              SendMessageToServer("play" + " " + direcion);
-            MovePlayer(direcion);
+            MovePlayer(direcion); // move the player locally.
            
         }
 
 
+        /// <summary>
+        /// Joins the maze command.
+        /// </summary>
+        /// <param name="mazeName">Name of the maze.</param>
         public void JoinMazeCommand(string mazeName)
         {
             MazeName = mazeName;
             if (Is_Enabled)
             {
-                if (MyClient == null)
+                if (MyClient == null) // check if the client is null.
                 {
                     MyClient = new Client(IpAddress, PortNumber);
                     if (MyClient.Communicate == false)
@@ -144,10 +186,11 @@ namespace MazeGui.Model.MultiPlayerModel
                         return;
                     }
                 }
-                SendMessageToServer("join" + " " + MazeName);
-                string resultFromServer = RecieveMessageFromServer();
-                if (resultFromServer.Contains("Maze"))
+                SendMessageToServer("join" + " " + MazeName); // sends the join command to ther server.
+                string resultFromServer = RecieveMessageFromServer(); //gets the maze back.
+                if (resultFromServer.Contains("Maze")) //check if it is indeed a maze.
                 {
+                    //update members accordingly.
                     ResultMaze = MazeLib.Maze.FromJSON(resultFromServer);
                     string temp = ResultMaze.ToString();
                     Maze = temp.Replace(Environment.NewLine, "");
@@ -167,20 +210,12 @@ namespace MazeGui.Model.MultiPlayerModel
 
 
 
-        private string check;
-        public string Check
-        {
-            get
-            {
-                return this.check;
-            }
-            set
-            {
-                this.check = value;
-            }
-        }
 
 
+
+        /// <summary>
+        /// Starts listening in a different thread to ther server.
+        /// </summary>
         public void StartListeningToServer()
         {
             Task task = new Task(() =>//create a reading thread from the server.
@@ -191,17 +226,18 @@ namespace MazeGui.Model.MultiPlayerModel
                     {
                         string result = RecieveMessageFromServer();
 
-                        Check = result;
+                        
                         if (result != null)
                         {
 
-                            if(result.Contains("Connection Error"))
+                            if(result.Contains("Connection Error")) //connection error.
                             {
                                 break;
                             }
 
                             string direction = null;
 
+                            //the other player moved.
                             if (result.Contains("Direction"))
                             {
                                 if (result.Contains("Right"))
@@ -220,7 +256,7 @@ namespace MazeGui.Model.MultiPlayerModel
                                 {
                                     direction = "Down";
                                 }
-
+                                //moves the other player.
                                 if (PlayerCanMove(OtherPlayerPosition, direction))
                                 {
                                     switch (direction)
@@ -255,10 +291,10 @@ namespace MazeGui.Model.MultiPlayerModel
                                                 break;
                                             }
                                     }
-
+                                    //check if reached to the goal position.
                                     if(OtherPlayerPosition.Row == GoalPosition.Row && OtherPlayerPosition.Col == GoalPosition.Col)
                                     {
-                                        Check = "aaa";
+                                        
 
                                         FinishGame = true;
                                         MyClient.Communicate = false;
@@ -266,9 +302,10 @@ namespace MazeGui.Model.MultiPlayerModel
 
                                 }
                             }
+                            //checks if the game was closed by the other player.
                             else if (result.Contains("The Game Was Closed"))
                             {
-                                Check = "aaa";
+                               
                                 Is_Enabled = false;
                                 FinishGame = true;
                                 MyClient.Communicate = false;
@@ -281,9 +318,15 @@ namespace MazeGui.Model.MultiPlayerModel
                     }
                 }
             });
-            task.Start();
+            task.Start(); // starts the task.
         }
 
+        /// <summary>
+        /// Gets or sets the other player position.
+        /// </summary>
+        /// <value>
+        /// The other player position.
+        /// </value>
         public Position OtherPlayerPosition
         {
             get
@@ -299,6 +342,12 @@ namespace MazeGui.Model.MultiPlayerModel
         }
 
 
+        /// <summary>
+        /// Gets or sets the games list.
+        /// </summary>
+        /// <value>
+        /// The games list.
+        /// </value>
         public ObservableCollection<string> GamesList
         {
             get
@@ -311,6 +360,9 @@ namespace MazeGui.Model.MultiPlayerModel
             }
         }
 
+        /// <summary>
+        /// sends a list command to the server.
+        /// </summary>
         public void ListCommand()
         {
            SendMessageToServer("list");

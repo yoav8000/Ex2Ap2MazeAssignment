@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MazeGui.View.GeneralSettingsView.GameSettingsView"
          xmlns:UserControls="clr-namespace:MazeGui.UserControls" 
         mc:Ignorable="d"
-            Title="MultiPlayerGameSettingsWindow" Height="270" Width="270">
+            Title="MultiPlayerGameSettingsWindow" Height="270" Width="270" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

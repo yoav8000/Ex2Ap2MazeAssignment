@@ -22,6 +22,8 @@ namespace MazeGui
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -29,23 +31,41 @@ namespace MazeGui
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Handles the Click event of the SettingsButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Hide();
             GeneralSettingsWindow g = GeneralSettingsWindow.GetInstance();
             g.ShowDialog();
+            this.ShowDialog();
             
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the SinglePlayerButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void SinglePlayerButton_Click(object sender, RoutedEventArgs e)
         {
                 this.Hide();
                 ISettingsModel settingsModel = new SettingsModel();
                 SinglePlayerGamesSettingsWindow theSettingsModelWindow = new SinglePlayerGamesSettingsWindow(settingsModel);
                 theSettingsModelWindow.ShowDialog();
+                
             
         }
 
+        /// <summary>
+        /// Handles the Click event of the MultiPlayerButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MultiPlayerButton_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -55,6 +75,10 @@ namespace MazeGui
 
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             App.Current.Shutdown();

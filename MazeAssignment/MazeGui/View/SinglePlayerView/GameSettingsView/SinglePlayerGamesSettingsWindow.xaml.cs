@@ -21,10 +21,17 @@ namespace MazeGui.View.SinglePlayerView.GameSettingsView
     /// <summary>
     /// Interaction logic for SinglePlayerGamesSettingsWindow.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class SinglePlayerGamesSettingsWindow : Window
     {
+        //members.
         private ISettingsModel settingsModel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SinglePlayerGamesSettingsWindow"/> class.
+        /// </summary>
+        /// <param name="settingsModel">The settings model.</param>
         public SinglePlayerGamesSettingsWindow(ISettingsModel settingsModel)
         {
             InitializeComponent();
@@ -32,6 +39,10 @@ namespace MazeGui.View.SinglePlayerView.GameSettingsView
             MazeSettingsUC.DataContext = settingsModel;
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             MainWindow window = new MainWindow();
@@ -39,6 +50,11 @@ namespace MazeGui.View.SinglePlayerView.GameSettingsView
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the OkButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;

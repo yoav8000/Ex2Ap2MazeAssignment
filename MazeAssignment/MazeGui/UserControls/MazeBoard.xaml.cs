@@ -18,11 +18,13 @@ namespace MazeGui.UserControls
     /// <summary>
     /// Interaction logic for MazeBoard.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Controls.UserControl" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class MazeBoard : UserControl
     {
        
 
-
+        //members.
         private int rows;
         private int cols;
         private Rectangle[,] mazeGrid;
@@ -36,6 +38,12 @@ namespace MazeGui.UserControls
 
 
 
+        /// <summary>
+        /// Gets or sets the height of the rectangle.
+        /// </summary>
+        /// <value>
+        /// The height of the rectangle.
+        /// </value>
         public double RectangleHeight
         {
             get
@@ -48,6 +56,12 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the width of the rectangl.
+        /// </summary>
+        /// <value>
+        /// The width of the rectangl.
+        /// </value>
         public double RectanglWidth
         {
             get
@@ -61,6 +75,12 @@ namespace MazeGui.UserControls
         }
 
 
+        /// <summary>
+        /// Gets or sets the maze.
+        /// </summary>
+        /// <value>
+        /// The maze.
+        /// </value>
         public string Maze
         {
             get
@@ -75,6 +95,12 @@ namespace MazeGui.UserControls
 
 
 
+        /// <summary>
+        /// Gets or sets the player position.
+        /// </summary>
+        /// <value>
+        /// The player position.
+        /// </value>
         public string PlayerPosition
         {
             get
@@ -86,6 +112,12 @@ namespace MazeGui.UserControls
                 SetValue(PlayerPositionProperty, value);
             }
         }
+        /// <summary>
+        /// Gets or sets the connection error.
+        /// </summary>
+        /// <value>
+        /// The connection error.
+        /// </value>
         public string ConnectionError
         {
             get
@@ -98,6 +130,12 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the initial position.
+        /// </summary>
+        /// <value>
+        /// The initial position.
+        /// </value>
         public string InitialPosition
         {
             get
@@ -110,6 +148,12 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the goal position.
+        /// </summary>
+        /// <value>
+        /// The goal position.
+        /// </value>
         public string GoalPosition
         {
             get
@@ -122,6 +166,12 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the rows.
+        /// </summary>
+        /// <value>
+        /// The rows.
+        /// </value>
         public string Rows
         {
             get
@@ -134,6 +184,12 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the cols.
+        /// </summary>
+        /// <value>
+        /// The cols.
+        /// </value>
         public string Cols
         {
             get
@@ -146,6 +202,11 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Gets the x.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
         public static int GetX(string position)
         {
             string[] arr = position.Split(',');
@@ -156,6 +217,11 @@ namespace MazeGui.UserControls
         }
 
 
+        /// <summary>
+        /// Gets the y.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
         public static int GetY(string position)
         {
             string[] arr = position.Split(',');
@@ -169,24 +235,36 @@ namespace MazeGui.UserControls
 
 
 
+        /// <summary>
+        /// The connection error property
+        /// </summary>
         public static readonly DependencyProperty ConnectionErrorProperty = DependencyProperty.Register(//added
                   "ConnectionError",
                   typeof(string),
                   typeof(MazeBoard),
                  null);
 
+        /// <summary>
+        /// The maze property
+        /// </summary>
         public static readonly DependencyProperty MazeProperty = DependencyProperty.Register(
                   "Maze",
                   typeof(string),
                   typeof(MazeBoard),
                new PropertyMetadata(""));
 
+        /// <summary>
+        /// The rows property
+        /// </summary>
         public static readonly DependencyProperty RowsProperty = DependencyProperty.Register(
          "Rows",
          typeof(string),
          typeof(MazeBoard),
          new PropertyMetadata(""));
 
+        /// <summary>
+        /// The cols property
+        /// </summary>
         public static readonly DependencyProperty ColsProperty = DependencyProperty.Register(
        "Cols",
        typeof(string),
@@ -194,6 +272,9 @@ namespace MazeGui.UserControls
        new PropertyMetadata(""));
 
 
+        /// <summary>
+        /// The initial position property
+        /// </summary>
         public static readonly DependencyProperty InitialPositionProperty = DependencyProperty.Register(
             "InitialPosition",
             typeof(string),
@@ -201,6 +282,9 @@ namespace MazeGui.UserControls
              new PropertyMetadata(""));
 
 
+        /// <summary>
+        /// The goal position property
+        /// </summary>
         public static readonly DependencyProperty GoalPositionProperty = DependencyProperty.Register(
         "GoalPosition",
         typeof(string),
@@ -210,6 +294,9 @@ namespace MazeGui.UserControls
 
 
 
+        /// <summary>
+        /// The player position property
+        /// </summary>
         public static readonly DependencyProperty PlayerPositionProperty = DependencyProperty.Register(
        "PlayerPosition",
        typeof(string),
@@ -217,6 +304,12 @@ namespace MazeGui.UserControls
        new PropertyMetadata(MovePlayerPositionRectangle));
 
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.FrameworkElement.Initialized" />
+        /// event. This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized" /> 
+        /// is set to true internally.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.Windows.RoutedEventArgs" /> that contains the event data.</param>
         protected override void OnInitialized(EventArgs e)
         {
 
@@ -229,12 +322,15 @@ namespace MazeGui.UserControls
                 rectangleHeight = MazeCanvas.Height / rows;
                 RectanglWidth = MazeCanvas.Width / cols;
 
-
+                //sers the brushed.
                 barrierBrush = new SolidColorBrush(Colors.Black);
                 freeRecBrush = new SolidColorBrush(Colors.White);
-                playerPosBrush = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/MazeGui;component/Resources/minionphoto.png")));
-                goalPosBrush = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/MazeGui;component/Resources/destinationimage.png")));
+                playerPosBrush = new ImageBrush(new BitmapImage
+                    (new Uri(@"pack://application:,,,/MazeGui;component/Resources/minionphoto.png")));
+                goalPosBrush = new ImageBrush(new BitmapImage
+                    (new Uri(@"pack://application:,,,/MazeGui;component/Resources/destinationimage.png")));
 
+                //initializes the rectangles.
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = 0; j < cols; j++)
@@ -294,6 +390,11 @@ namespace MazeGui.UserControls
 
 
 
+        /// <summary>
+        /// Moves the player rectangle.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
         public void MovePlayerRec(int x, int y)
         {
             if (playerPositionRectangle != null)
@@ -303,6 +404,11 @@ namespace MazeGui.UserControls
             }
         }
 
+        /// <summary>
+        /// Moves the player position rectangle.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void MovePlayerPositionRectangle(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             string newPos = e.NewValue as string;
@@ -315,17 +421,13 @@ namespace MazeGui.UserControls
 
             mazeBoard.MovePlayerRec(x, y);
 
-            //if (xGoal == x && yGoal == y)
-            //{
-            //    if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.No)
-            //    {
-
-            //    }
-                
-            //}
+      
 
         }
 
+        /// <summary>
+        /// Restarts the maze.
+        /// </summary>
         public void RestartMaze()
         {
             PlayerPosition = InitialPosition;

@@ -17,6 +17,8 @@ namespace MazeGui.View.breakPointWindow
     /// <summary>
     /// Interaction logic for BreakPointWindow.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class BreakPointWindow : Window
     {
         public BreakPointWindow()

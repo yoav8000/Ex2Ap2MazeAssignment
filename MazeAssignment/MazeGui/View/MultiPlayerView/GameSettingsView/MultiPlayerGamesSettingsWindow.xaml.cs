@@ -22,13 +22,19 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
     /// <summary>
     /// Interaction logic for MultiPlayerGamesSettingsWindow.xaml
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class MultiPlayerGamesSettingsWindow : Window
     {
-
+        //members.
         private ISettingsModel settingsModel;
         private MultiPlayerViewModel vm;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiPlayerGamesSettingsWindow"/> class.
+        /// </summary>
+        /// <param name="settingsModel">The settings model.</param>
         public MultiPlayerGamesSettingsWindow(ISettingsModel settingsModel)
         {
             vm = new MultiPlayerViewModel(new MultiPlayerModel(settingsModel,""));
@@ -39,6 +45,11 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
             MazeSettingsUC.DataContext = settingsModel;
         }
 
+        /// <summary>
+        /// Handles the Click event of the StartGameButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;
@@ -48,7 +59,7 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
             win.Close();
 
             this.waitingImage.Visibility = Visibility.Visible;
-
+            vm.VM_Rows = settingsModel.MazeRows.ToString();
 
             MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName, "Start");
             try
@@ -67,6 +78,10 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         }
 
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             MainWindow window = new MainWindow();
@@ -74,20 +89,28 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the JoinGameButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void JoinGameButton_Click(object sender, RoutedEventArgs e)
         {
-            string mazeName = cboListOfGames.SelectedValue.ToString();
-
-            MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName,"Join");
-            try
+            if (cboListOfGames.SelectedValue != null)
             {
-                this.Hide();
-                game.ShowDialog();
-                this.Close();
-            }
-            catch
-            {
+                string mazeName = cboListOfGames.SelectedValue.ToString();
 
+                MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel, vm, mazeName, "Join");
+                try
+                {
+                    this.Hide();
+                    game.ShowDialog();
+                    this.Close();
+                }
+                catch
+                {
+
+                }
             }
         }
     }
