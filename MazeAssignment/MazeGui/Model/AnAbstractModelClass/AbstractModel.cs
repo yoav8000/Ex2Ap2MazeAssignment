@@ -412,7 +412,10 @@ namespace MazeGui.Model.AnAbstractModelClass
         /// </summary>
         public void Disconnect()
         {
-            myClient.CloseConnection();
+            if (MyClient != null)
+            {
+                myClient.CloseConnection();
+            }
         }
 
 
@@ -431,6 +434,7 @@ namespace MazeGui.Model.AnAbstractModelClass
                     {
                         Is_Enabled = false;
                         ConnectionError = resultFromServer;
+                        Disconnect();
                     }
                     return resultFromServer;
                 }

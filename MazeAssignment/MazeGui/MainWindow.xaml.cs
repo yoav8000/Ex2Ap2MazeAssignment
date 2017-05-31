@@ -71,7 +71,7 @@ namespace MazeGui
             this.Hide();
             ISettingsModel settingsModel = new SettingsModel();
             MultiPlayerGamesSettingsWindow theSettingsModelWindow = new MultiPlayerGamesSettingsWindow(settingsModel);
-            theSettingsModelWindow.ShowDialog();
+            theSettingsModelWindow.ShowDialog();            
 
         }
 

@@ -58,6 +58,7 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
         {
             if (this.GameWasClosed != null)
             {
+                VM_Is_Enabled = false;
                 this.GameWasClosed("GameWasClosed");
             }
         }
@@ -65,15 +66,8 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
 
         public void NullifyClient()
         {
-            try
-            {
-                Model.MyClient.StreamReader = null;
-                Model.MyClient = null;
-            }
-            catch
-            {
-
-            }
+         
+            Model.NullifyClient();
             
         }
 

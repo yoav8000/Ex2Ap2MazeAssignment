@@ -220,19 +220,19 @@ namespace MazeGui.Model.MultiPlayerModel
         {
             Task task = new Task(() =>//create a reading thread from the server.
             {
-                try
+                try //to check if the client is null.
                 {
-                    while (MyClient.Communicate)
+                    while (MyClient.Communicate) //while we need to communicate.
                     {
-                        try
+                        try //to get a message from the server.
                         {
                             string result = RecieveMessageFromServer();
 
 
                             if (result != null)
                             {
-
-                                if (result.Contains("Connection Error")) //connection error.
+                                //connection error occurred did action in abstract model already.
+                                if (result.Contains("Connection Error")) 
                                 {
                                     break;
                                 }
@@ -240,7 +240,7 @@ namespace MazeGui.Model.MultiPlayerModel
                                 string direction = null;
 
                                 //the other player moved.
-                                if (result.Contains("Direction"))
+                                if (result.Contains("Direction")) //move other player.
                                 {
                                     if (result.Contains("Right"))
                                     {
@@ -258,6 +258,7 @@ namespace MazeGui.Model.MultiPlayerModel
                                     {
                                         direction = "Down";
                                     }
+
                                     //moves the other player.
                                     if (PlayerCanMove(OtherPlayerPosition, direction))
                                     {
@@ -296,8 +297,6 @@ namespace MazeGui.Model.MultiPlayerModel
                                         //check if reached to the goal position.
                                         if (OtherPlayerPosition.Row == GoalPosition.Row && OtherPlayerPosition.Col == GoalPosition.Col)
                                         {
-
-
                                             FinishGame = true;
                                             MyClient.Communicate = false;
                                         }
@@ -305,13 +304,12 @@ namespace MazeGui.Model.MultiPlayerModel
                                     }
                                 }
                                 //checks if the game was closed by the other player.
-                                else if (result.Contains("The Game Was Closed"))
+                                else if (result.Contains("The Game Was Closed")) //close the game.
                                 {
-
                                     Is_Enabled = false;
                                     FinishGame = true;
                                     MyClient.Communicate = false;
-                                    MyClient = null;
+                                  
                                 }
                             }
                         }
@@ -354,8 +352,16 @@ namespace MazeGui.Model.MultiPlayerModel
         /// </summary>
         public void NullifyClient()
         {
+            try
+            {
                 MyClient.StreamReader = null;
+                MyClient.StreamWriter = null;
                 MyClient = null;
+            }
+            catch
+            {
+
+            }
             
         }
 

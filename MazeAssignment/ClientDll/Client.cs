@@ -129,11 +129,12 @@ namespace ClientDll
                         //  Console.WriteLine("there was an error please type another command ");
                         return "Input Error";
                     }
-                    if (arr[0].Contains("Closed"))
-                    {
-                        //  Console.WriteLine("other player closed connection ");
-                        return "The other player closed the game";
-                    }
+
+                    //if (arr[0].Contains("Closed"))
+                    //{
+                    //    //  Console.WriteLine("other player closed connection ");
+                    //    return "The other player closed the game";
+                    //}
                     return result;
                 }
                 return null;
@@ -200,7 +201,14 @@ namespace ClientDll
         /// </summary>
         public void CloseConnection()
         {
-            TheClient.Close();
+            try
+            {
+                TheClient.Close();
+            }
+            catch
+            {
+
+            }
         }
 
         /// <summary>
@@ -211,8 +219,6 @@ namespace ClientDll
             TheClient = new TcpClient();
             try
             {
-
-
                 TheClient.Connect(this.ep);//connect to the server
                 this.stream = TheClient.GetStream();
                 StreamReader = new StreamReader(TheClient.GetStream());

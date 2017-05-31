@@ -38,7 +38,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
         /// <param name="vm">The vm.</param>
         /// <param name="mazeName">Name of the maze.</param>
         /// <param name="buttonPressed">The button pressed.</param>
-        public MultiPlayerGameWindow(ISettingsModel settingModel,MultiPlayerViewModel vm , string mazeName, string buttonPressed)
+        public MultiPlayerGameWindow(ISettingsModel settingModel, MultiPlayerViewModel vm, string mazeName, string buttonPressed)
         {
             registerToConnectionError = false;
             this.vm = vm;
@@ -51,31 +51,25 @@ namespace MazeGui.View.MultiPlayerView.GameView
 
                     if (MessageBox.Show("There was an error with the connection to the server", "Connection Error", MessageBoxButton.OK) == MessageBoxResult.OK)
                     {
-                        try
-                        {
 
-                            this.Close();
-                        }
-                        catch
-                        {
+                        Dispatcher.Invoke(() => { CloseTheGame(); });
 
-                        }
                     }
                 };
                 registerToConnectionError = true;
             }
-            lostTheGame = false;
-            vm.GameWasClosed += delegate (string message) {
+            vm.GameWasClosed += delegate (string message)
+            {
                 if ((vm.VM_OtherPlayerPosition).Row == (vm.VM_GoalPosition).Row && (vm.VM_OtherPlayerPosition).Col == (vm.VM_GoalPosition).Col)
                 {
+
                     if (MessageBox.Show("Unfortunatly you lost the game", "You Lost", MessageBoxButton.OK) == MessageBoxResult.OK)
                     {
                         try
                         {
-                            lostTheGame = true;
-                            vm.VM_Is_Enabled = true;
+
                             vm.NullifyClient();
-                            this.Close();
+                            Dispatcher.Invoke(() => { CloseTheGame(); });
                         }
                         catch
                         {
@@ -89,21 +83,12 @@ namespace MazeGui.View.MultiPlayerView.GameView
 
                     if (MessageBox.Show("The other player closed the game", "Other player closed the game", MessageBoxButton.OK) == MessageBoxResult.OK)
                     {
-                        try
-                        {
 
-                            this.Close();
-                        }
-                        catch
-                        {
-
-                        }
-
-
+                        Dispatcher.Invoke(() => { CloseTheGame(); });
                     }
                 }
 
-                
+
             };
             this.vm.VM_Rows = settingModel.MazeRows.ToString();
             this.vm.VM_Cols = settingModel.MazeCols.ToString();
@@ -158,51 +143,59 @@ namespace MazeGui.View.MultiPlayerView.GameView
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if (!lostTheGame)
-            {
-                string direction = "";
-                switch (e.Key)
-                {
-                    case Key.Down:
-                        {
-                            direction = "Down";
-                            break;
-                        }
-                    case Key.Up:
-                        {
-                            direction = "Up";
-                            break;
-                        }
-                    case Key.Right:
-                        {
-                            direction = "Right";
-                            break;
-                        }
-                    case Key.Left:
-                        {
-                            direction = "Left";
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                }
-                if (direction != "" && MyBoard.PlayerPosition != MyBoard.GoalPosition)
-                {
-                    vm.MovePlayer(direction);
-                    if (vm.VM_PlayerPosition.Row == vm.VM_GoalPosition.Row && vm.VM_PlayerPosition.Col == vm.VM_GoalPosition.Col)
-                    {
-                        
-                        if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.OK)
-                        {
-                            vm.NullifyClient();
-                        }
 
+            string direction = "";
+            switch (e.Key)
+            {
+                case Key.Down:
+                    {
+                        direction = "Down";
+                        break;
                     }
+                case Key.Up:
+                    {
+                        direction = "Up";
+                        break;
+                    }
+                case Key.Right:
+                    {
+                        direction = "Right";
+                        break;
+                    }
+                case Key.Left:
+                    {
+                        direction = "Left";
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            if (direction != "" && MyBoard.PlayerPosition != MyBoard.GoalPosition)
+            {
+                vm.MovePlayer(direction);
+                if (vm.VM_PlayerPosition.Row == vm.VM_GoalPosition.Row && vm.VM_PlayerPosition.Col == vm.VM_GoalPosition.Col)
+                {
+
+                    if (MessageBox.Show("Congratulations! you have reached the Destination", "Congratulations!", MessageBoxButton.OK) == MessageBoxResult.OK)
+                    {
+                        vm.NullifyClient();
+                        Dispatcher.Invoke(() => { CloseTheGame(); });
+                    }
+
                 }
             }
+
         }
+
+
+
+        private void CloseTheGame()
+        {
+            this.Close();
+        }
+
 
         /// <summary>
         /// Raises the <see cref="E:System.Windows.Window.Closed" /> event.
@@ -210,14 +203,13 @@ namespace MazeGui.View.MultiPlayerView.GameView
         /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
-            int xGoal = vm.VM_GoalPosition.Row;
-            int yGoal = vm.VM_GoalPosition.Col;
-            lostTheGame = false;
-            if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal) && vm.VM_Is_Enabled)
+            if (vm.VM_ConnectionError == null) // so that when we close the game automaticly we wouldn't send the message twice.
             {
                 vm.CloseGame();
-                vm.NullifyClient();
             }
+            vm.NullifyClient();
+            Dispatcher.Invoke(() => { CloseTheGame(); });
+
         }
 
 
@@ -228,17 +220,12 @@ namespace MazeGui.View.MultiPlayerView.GameView
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to go back to main menu?", "Return to main menu", MessageBoxButton.OK) == MessageBoxResult.OK)
+            if (MessageBox.Show("Are you sure you want to go back to the main menu?", "Go back to main menu", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                int xGoal = vm.VM_GoalPosition.Row;
-                int yGoal = vm.VM_GoalPosition.Col;
-                if ((vm.VM_PlayerPosition.Row != xGoal && vm.VM_PlayerPosition.Row != yGoal) && (vm.VM_OtherPlayerPosition.Row != xGoal && vm.VM_OtherPlayerPosition.Row != yGoal))
-                {
-                    vm.CloseGame();
-                    vm.NullifyClient();
-                }
+                vm.CloseGame();
+                vm.NullifyClient();
                 this.Hide();
-                this.Close();
+                Dispatcher.Invoke(() => { CloseTheGame(); });
                 lostTheGame = false;
                 MainWindow mainWin = new MainWindow();
                 mainWin.ShowDialog();

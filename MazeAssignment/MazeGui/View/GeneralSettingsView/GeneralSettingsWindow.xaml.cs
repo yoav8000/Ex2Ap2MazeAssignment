@@ -71,7 +71,6 @@ namespace MazeGui.View.GeneralSettingsView
         {
             vm.SaveSettings();
             Hide();
-
         }
 
         /// <summary>
