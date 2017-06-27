@@ -32,7 +32,7 @@ namespace MazeGui.View.SinglePlayerView.GameView
         /// </summary>
         /// <param name="settingModel">The setting model.</param>
         /// <param name="mazeName">Name of the maze.</param>
-        public SinglePlayerGameWindow(ISettingsModel settingModel,string mazeName)
+        public SinglePlayerGameWindow(ISettingsModel settingModel,string mazeName, int rows, int cols)
         {
             this.vm = new SinglePlayerViewModel(new SinglePlayerModel(settingModel, mazeName));
            
@@ -46,7 +46,7 @@ namespace MazeGui.View.SinglePlayerView.GameView
 
             };
             this.DataContext = this.vm;
-            vm.StartNewGame();
+            vm.StartNewGame(mazeName, rows,cols);
             if (vm.VM_Is_Enabled)
             {
                 InitializeComponent();

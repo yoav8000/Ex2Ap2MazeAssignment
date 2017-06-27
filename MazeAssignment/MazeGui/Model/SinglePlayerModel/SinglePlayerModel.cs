@@ -50,7 +50,7 @@ namespace MazeGui.Model.SinglePlayerModel
         }
 
 
-        public void GenerateSinglePlayerMaze()
+        public void GenerateSinglePlayerMaze(string mazeName, int rows, int cols)
         {
             if (Is_Enabled)
             {
@@ -65,7 +65,7 @@ namespace MazeGui.Model.SinglePlayerModel
 
                 if (ConnectionError== null || !ConnectionError.Contains("ConnectionError"))
                 {
-                    SendMessageToServer("generate" + " " + MazeName + " " + Rows + " " + Cols);
+                    SendMessageToServer("generate" + " " + mazeName + " " + rows + " " + cols);
                     string result = RecieveMessage();
                     MyClient.Communicate = false;
                 }

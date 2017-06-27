@@ -11,12 +11,12 @@ using MazeGui.NoifyGameClosedInterface;
 
 namespace MazeGui.TheViewModel.MultiPlayerVM
 {
-    /// <summary> 
+    /// <summary>
     /// MultiPlayerViewModel implements ViewModel and INotifyGameWasClosed.
     /// </summary>
     /// <seealso cref="MazeGui.ViewModel.GeneralVM.ViewModel" />
     /// <seealso cref="MazeGui.NoifyGameClosedInterface.INotifyGameWasClosed" />
-    public class MultiPlayerViewModel : MazeGui.ViewModel.GeneralVM.ViewModel , INotifyGameWasClosed
+    public class MultiPlayerViewModel : MazeGui.ViewModel.GeneralVM.ViewModel, INotifyGameWasClosed
     {
         //members.
         private MultiPlayerModel model;
@@ -66,9 +66,9 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
 
         public void NullifyClient()
         {
-         
+
             Model.NullifyClient();
-            
+
         }
 
         /// <summary>
@@ -327,15 +327,22 @@ namespace MazeGui.TheViewModel.MultiPlayerVM
             }
         }
 
+        /// <summary>
+        /// Vms the list games.
+        /// </summary>
+        public void VM_ListGames()
+        {
+            Model.ListCommand();
+        }
 
 
         /// <summary>
         /// Starts the multiplayer game.
         /// </summary>
         /// <param name="mazeName">Name of the maze.</param>
-        public void StartMultiplayerGame(string mazeName)
+        public void StartMultiplayerGame(string mazeName, int rows, int cols)
         {
-            Model.GenerateMultiplayerMaze(mazeName);
+            Model.GenerateMultiplayerMaze(mazeName, rows, cols);
         }
 
         /// <summary>

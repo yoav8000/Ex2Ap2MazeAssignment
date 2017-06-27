@@ -58,8 +58,10 @@ namespace MazeGui.View.SinglePlayerView.GameSettingsView
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;
+            int rows = int.Parse(MazeSettingsUC.txtMazeRows.Text);
+            int cols = int.Parse(MazeSettingsUC.txtMazeRows.Text);
             this.Hide();
-            SinglePlayerGameWindow game = new SinglePlayerGameWindow(settingsModel,mazeName);
+            SinglePlayerGameWindow game = new SinglePlayerGameWindow(settingsModel,mazeName,rows,cols);
             try
             {
                 game.ShowDialog();

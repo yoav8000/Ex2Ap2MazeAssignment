@@ -42,11 +42,11 @@ namespace MazeGui.TheViewModel.SinglePlayerVM
         /// <summary>
         /// Starts the new game.
         /// </summary>
-        public void StartNewGame()
+        public void StartNewGame(string mazeName, int rows, int cols)
         {
             if (model.Is_Enabled)
             {
-             model.GenerateSinglePlayerMaze();
+             model.GenerateSinglePlayerMaze(mazeName,rows,cols);
             }
         }
 

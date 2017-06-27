@@ -53,15 +53,16 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
             string mazeName = MazeSettingsUC.txtMazeName.Text;
+            int rows = int.Parse(MazeSettingsUC.txtMazeRows.Text);
+            int cols = int.Parse(MazeSettingsUC.txtMazeRows.Text);
             waitingImage.Visibility = Visibility.Visible;
             Window win = new BreakPointWindow();
             win.Show();
             win.Close();
 
             this.waitingImage.Visibility = Visibility.Visible;
-            vm.VM_Rows = settingsModel.MazeRows.ToString();
 
-            MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName, "Start");
+            MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel,vm, mazeName,rows,cols, "Start");
             try
             {
                 this.Hide();
@@ -89,6 +90,11 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
         }
 
 
+        void OnDropDownOpened(object sender, EventArgs e)
+        {
+            vm.VM_ListGames();
+        }
+
         /// <summary>
         /// Handles the Click event of the JoinGameButton control.
         /// </summary>
@@ -100,7 +106,7 @@ namespace MazeGui.View.GeneralSettingsView.GameSettingsView
             {
                 string mazeName = cboListOfGames.SelectedValue.ToString();
 
-                MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel, vm, mazeName, "Join");
+                MultiPlayerGameWindow game = new MultiPlayerGameWindow(settingsModel, vm, mazeName,0,0, "Join");
                 try
                 {
                     this.Hide();

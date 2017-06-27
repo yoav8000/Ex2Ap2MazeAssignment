@@ -38,7 +38,7 @@ namespace MazeGui.View.MultiPlayerView.GameView
         /// <param name="vm">The vm.</param>
         /// <param name="mazeName">Name of the maze.</param>
         /// <param name="buttonPressed">The button pressed.</param>
-        public MultiPlayerGameWindow(ISettingsModel settingModel, MultiPlayerViewModel vm, string mazeName, string buttonPressed)
+        public MultiPlayerGameWindow(ISettingsModel settingModel, MultiPlayerViewModel vm, string mazeName,int rows, int cols, string buttonPressed)
         {
             registerToConnectionError = false;
             this.vm = vm;
@@ -90,15 +90,15 @@ namespace MazeGui.View.MultiPlayerView.GameView
 
 
             };
-            this.vm.VM_Rows = settingModel.MazeRows.ToString();
-            this.vm.VM_Cols = settingModel.MazeCols.ToString();
+            //this.vm.VM_Rows = settingModel.MazeRows.ToString();
+            //this.vm.VM_Cols = settingModel.MazeCols.ToString();
 
             //get the command that was called.
             switch (buttonPressed)
             {
                 case "Start":
                     {
-                        vm.StartMultiplayerGame(mazeName);
+                        vm.StartMultiplayerGame(mazeName,rows,cols);
                         break;
                     }
                 case "Join":

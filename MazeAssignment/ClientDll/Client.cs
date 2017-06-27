@@ -30,7 +30,7 @@ namespace ClientDll
         /// <param name="portNumber">The port number.</param>
         public Client(string ip, int portNumber)
         {
-            this.ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), portNumber);
+            this.ep = new IPEndPoint(IPAddress.Parse(ip), portNumber);
             this.portNumber = portNumber;
             string result = CreateANewConnection();
             if (!result.Contains("Connection Error"))

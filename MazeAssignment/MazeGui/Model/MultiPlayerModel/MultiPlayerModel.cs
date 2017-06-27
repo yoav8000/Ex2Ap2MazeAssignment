@@ -97,7 +97,7 @@ namespace MazeGui.Model.MultiPlayerModel
         /// Generates the multiplayer maze.
         /// </summary>
         /// <param name="mazeName">Name of the maze.</param>
-        public void GenerateMultiplayerMaze(string mazeName)
+        public void GenerateMultiplayerMaze(string mazeName, int rows, int cols)
         {
             MazeName = mazeName;
             if (Is_Enabled)
@@ -112,7 +112,7 @@ namespace MazeGui.Model.MultiPlayerModel
                     }
                 }
                 ///send the command to the server.
-                SendMessageToServer("start" + " " + MazeName + " " + Rows + " " + Cols);
+                SendMessageToServer("start" + " " + MazeName + " " + rows + " " + cols);
 
                 ///get the answer from the server.
 
@@ -388,16 +388,25 @@ namespace MazeGui.Model.MultiPlayerModel
         /// </summary>
         public void ListCommand()
         {
+    
            SendMessageToServer("list");
             string resultFromServer = RecieveMessageFromServer();
             if (resultFromServer != "[]")
             {
                 List<string> list = JsonConvert.DeserializeObject<List<string>>(resultFromServer);
                 int count = list.Count;
-                for (int i = 0; i < count; i++)
+                foreach(string s in list)
                 {
-                    gamesList.Add(list[i]);
+                    if (!gamesList.Contains(s))
+                    {
+                        gamesList.Add(s);
+                    }
                 }
+
+                //for (int i = 0; i < count; i++)
+                //{
+                //    gamesList.Add(list[i]);
+                //}
             }
         }
 
